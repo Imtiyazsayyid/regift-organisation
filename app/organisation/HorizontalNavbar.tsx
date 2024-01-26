@@ -1,12 +1,14 @@
 "use client";
-import { Avatar, Flex, Heading, Text } from "@radix-ui/themes";
+import { Avatar, DropdownMenu, Flex, Heading, Text } from "@radix-ui/themes";
 import { usePathname, useRouter } from "next/navigation";
 
 import { FaRegBell } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
-import { TbSettings } from "react-icons/tb";
+// import { TbSettings } from "react-icons/tb";
 import { IoMenu } from "react-icons/io5";
 import { FaBoxOpen } from "react-icons/fa";
+import { GearIcon, PersonIcon } from "@radix-ui/react-icons";
+import { IoLogOutOutline } from "react-icons/io5";
 
 import { AiFillHome } from "react-icons/ai";
 import { TbDeviceDesktopSearch } from "react-icons/tb";
@@ -15,6 +17,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 import * as OrganisationServices from "../Services/OrganisationServices";
+import { TokenService } from "../Services/StorageService";
 
 const HorizontalNavBar = () => {
   useEffect(() => {
@@ -56,8 +59,13 @@ const HorizontalNavBar = () => {
     }
   };
 
+  const signOut = () => {
+    TokenService.removeAccessToken();
+    router.push("/auth/login");
+  };
+
   return (
-    <Flex className="fixed w-full" direction={"column"}>
+    <Flex className="fixed w-full z-50" direction={"column"}>
       <Flex
         className="min-h-20 h-20 max-h-20 w-full bg-white shadow-sm px-3 md:px-16 border"
         justify={"between"}
@@ -98,7 +106,36 @@ const HorizontalNavBar = () => {
         <Flex align={"center"} gap={"4"}>
           <FaRegBell className="text-2xl text-slate-400 cursor-pointer" />
           <FaCartShopping className="text-2xl cursor-pointer font-bold" />
-          <Avatar fallback={"?"} radius="full" className="cursor-pointer" />
+          <Flex>
+            <DropdownMenu.Root>
+              <DropdownMenu.Trigger>
+                <Flex>
+                  <Avatar
+                    fallback={"?"}
+                    radius="full"
+                    className="cursor-pointer"
+                  />
+                </Flex>
+              </DropdownMenu.Trigger>
+              <DropdownMenu.Content>
+                <DropdownMenu.Item>
+                  <Flex gap={"2"} align={"center"}>
+                    <GearIcon /> Settings
+                  </Flex>
+                </DropdownMenu.Item>
+                <DropdownMenu.Item>
+                  <Flex gap={"2"} align={"center"}>
+                    <PersonIcon /> Profile
+                  </Flex>
+                </DropdownMenu.Item>
+                <DropdownMenu.Item onClick={() => signOut()}>
+                  <Flex gap={"2"} align={"center"}>
+                    <IoLogOutOutline /> Logout
+                  </Flex>
+                </DropdownMenu.Item>
+              </DropdownMenu.Content>
+            </DropdownMenu.Root>
+          </Flex>
         </Flex>
       </Flex>
 
@@ -113,7 +150,10 @@ const HorizontalNavBar = () => {
             <Flex
               className="border-slate-100"
               key={item.link}
-              onClick={() => router.push(item.link)}
+              onClick={() => {
+                router.push(item.link);
+                setDropdownActive(false);
+              }}
             >
               <Flex
                 gap={"3"}

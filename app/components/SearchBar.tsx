@@ -10,11 +10,10 @@ interface Props {
 
 const SearchBar = ({ placeholder, setSearchText, searchText }: Props) => {
   return (
-    <Flex direction={"column"} className="w-1/3" gap={"1"}>
-      <Text className="text-xs text-slate-500">Search</Text>
-      <TextField.Root className="h-fit" size={"2"}>
+    <Flex direction={"column"} className="w-full" gap={"1"}>
+      <TextField.Root className="h-fit" size={"3"}>
         <TextField.Slot>
-          <MagnifyingGlassIcon height="16" width="16" />
+          <MagnifyingGlassIcon height="20" width="20" />
         </TextField.Slot>
         <TextField.Input
           placeholder={placeholder}

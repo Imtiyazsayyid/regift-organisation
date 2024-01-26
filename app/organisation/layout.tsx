@@ -9,7 +9,7 @@ export default function RootLayout({
   return (
     <Flex className="h-full w-full" direction={"column"}>
       <HorizontalNavbar />
-      <main className="bg-slate-1000 h-full w-full pt-20">{children}</main>
+      <main className="h-full w-full pt-20 bg-white">{children}</main>
     </Flex>
   );
 }
