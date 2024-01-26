@@ -11,7 +11,8 @@ export default function Home() {
         gap={"2"}
       >
         <Heading size={{ initial: "4", md: "9" }} align={"center"}>
-          Welcome To <span className="text-blue-600">ReGift</span> Organisation.
+          Welcome To <span className="text-blue-600">ReGift</span>{" "}
+          Organisations.
         </Heading>
         <Text
           className="md:w-1/4 text-slate-600"
