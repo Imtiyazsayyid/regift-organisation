@@ -57,8 +57,9 @@ const LoginPage = () => {
       if (!accessTokenResponse.data.status) {
         throw new Error("status false in getting Access Token");
       }
+
       TokenService.saveAccessToken(accessTokenResponse.data.data);
-      router.push("/admin");
+      router.push("/organisation");
     } else {
       setErrors({
         email: "",

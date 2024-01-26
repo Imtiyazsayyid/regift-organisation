@@ -6,7 +6,7 @@ import { Toaster } from "react-hot-toast";
 import "../theme-config.css";
 
 export const metadata: Metadata = {
-  title: "Regift Admin",
+  title: "Regift Organisation",
   description:
     "The perfect place To give away unused items that can make some one else's life better",
 };

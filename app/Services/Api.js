@@ -4,7 +4,7 @@ import { TokenService } from "./StorageService";
 export default function Api() {
   const instance = axios.create({
     baseURL: process.env.BASE_URL,
-    // baseURL: "http://localhost:8003/api/admin",
+    // baseURL: "http://localhost:8003/api/organisation",
   });
 
   const ACCESS_TOKEN = TokenService.getAccessToken();

@@ -9,3 +9,9 @@ export async function getAccessToken(refreshToken) {
     refreshToken,
   });
 }
+
+// Details
+
+export async function getOrganisationDetails() {
+  return await Api().get("/details");
+}

@@ -1,4 +1,5 @@
 import { Flex } from "@radix-ui/themes";
+import HorizontalNavbar from "./HorizontalNavbar";
 
 export default function RootLayout({
   children,
@@ -6,8 +7,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <Flex align={"center"} justify={"center"} className="h-full">
-      {children}
+    <Flex className="h-full w-full" direction={"column"}>
+      <HorizontalNavbar />
+      <main className="bg-slate-1000 h-full w-full pt-20">{children}</main>
     </Flex>
   );
 }
