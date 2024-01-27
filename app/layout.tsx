@@ -32,7 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <Theme accentColor="crimson">
           <Toaster />
-          <main className={`h-screen bg-slate-100`}>{children}</main>
+          <main className={`h-screen`}>{children}</main>
         </Theme>
       </body>
     </html>

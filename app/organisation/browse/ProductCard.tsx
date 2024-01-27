@@ -20,7 +20,7 @@ const ProductCard = ({ id, title, description, img, category, condition }: Props
 
   return (
     <Flex
-      className="h-[450px] w-full overflow-hidden shadow-md border bg-white rounded-md cursor-pointer"
+      className="h-[450px] w-full overflow-hidden shadow-md border dark:border-none bg-white dark:bg-[var(--gray-a2)] rounded-md cursor-pointer"
       direction={"column"}
       onClick={() => router.push("/organisation/browse/" + id)}
     >

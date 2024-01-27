@@ -47,13 +47,13 @@ const ProductDetailPage = ({ params }: Props) => {
   return (
     <Flex p={{ initial: "4", md: "9" }} className="h-full">
       <div
-        className="hidden lg:block fixed top-28 left-19 p-2 rounded-full bg-[var(--crimson-a3)] text-[var(--crimson-a9)] z-50 cursor-pointer"
+        className="hidden lg:block fixed top-28 left-19 p-2 rounded-full bg-[var(--crimson-a3)] text-[var(--crimson-a11)] z-50 cursor-pointer"
         onClick={() => router.back()}
       >
         <ArrowLeftIcon />
       </div>
       <Grid
-        className="border w-full rounded-xl overflow-hidden shadow-md relative"
+        className="border dark:border-stone-800 w-full rounded-xl overflow-hidden shadow-md relative"
         columns={{ sm: "1", md: "2" }}
         rows={{ initial: "2", md: "1" }}
       >

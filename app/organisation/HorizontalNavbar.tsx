@@ -1,5 +1,5 @@
 "use client";
-import { Avatar, DropdownMenu, Flex, Heading, Text } from "@radix-ui/themes";
+import { Avatar, Box, DropdownMenu, Flex, Heading, Switch, Text } from "@radix-ui/themes";
 import { usePathname, useRouter } from "next/navigation";
 
 import { FaRegBell } from "react-icons/fa";
@@ -7,7 +7,7 @@ import { FaCartShopping } from "react-icons/fa6";
 // import { TbSettings } from "react-icons/tb";
 import { IoMenu } from "react-icons/io5";
 import { FaBoxOpen } from "react-icons/fa";
-import { GearIcon, PersonIcon } from "@radix-ui/react-icons";
+import { GearIcon, GlobeIcon, MoonIcon, PersonIcon, SunIcon } from "@radix-ui/react-icons";
 import { IoLogOutOutline } from "react-icons/io5";
 
 import { AiFillHome } from "react-icons/ai";
@@ -19,7 +19,12 @@ import { motion } from "framer-motion";
 import * as OrganisationServices from "../Services/OrganisationServices";
 import { TokenService } from "../Services/StorageService";
 
-const HorizontalNavBar = () => {
+interface Props {
+  isDarkMode: boolean;
+  setDarkMode: (isDarkMode: boolean) => void;
+}
+
+const HorizontalNavBar = ({ isDarkMode, setDarkMode }: Props) => {
   useEffect(() => {
     OrganisationServices.getOrganisationDetails();
   }, []);
@@ -63,40 +68,52 @@ const HorizontalNavBar = () => {
 
   return (
     <Flex className="fixed w-full z-50" direction={"column"}>
-      <Flex className="min-h-20 h-20 max-h-20 w-full bg-white shadow-sm px-3 md:px-16 border" justify={"between"}>
-        <div
-          className="flex flex-col justify-center md:hidden cursor-piinter"
-          onClick={() => setDropdownActive(!isDropdownActive)}
-        >
-          <IoMenu className="text-4xl" />
-        </div>
-        <Flex gap={"6"}>
-          <Flex
-            className="h-full w-full pl-10 cursor-pointer"
-            align={"center"}
-            justify={"end"}
-            gap={"2"}
-            onClick={() => router.push("/organisation")}
+      <Flex
+        className="min-h-20 h-20 max-h-20 w-full shadow-sm px-3 md:px-16 border-b dark:border-b-[var(--gray-a2)] border-slate-50"
+        justify={"between"}
+      >
+        <Flex gap={"3"}>
+          <div
+            className="flex flex-col justify-center md:hidden cursor-piinter"
+            onClick={() => setDropdownActive(!isDropdownActive)}
           >
-            <img
+            <IoMenu className="text-4xl" />
+          </div>
+          <Flex className="h-full w-full cursor-pointer" align={"center"} justify={"start"} gap={"5"}>
+            {/* <img
               src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Avicii_-_Logo.png"
               className="h-1/3 md:h-1/2 w-fit object-cover"
-            />
-            <Heading size={{ initial: "3", sm: "5" }}>Regift</Heading>
+            /> */}
+            <Flex gap={"2"} align={"center"} onClick={() => router.push("/organisation")}>
+              <GlobeIcon className="h-8 w-8 md:h-10 md:w-10" />
+              <Heading size={{ initial: "3", sm: "5" }}>Regift</Heading>
+            </Flex>
+            <div className="hidden md:flex items-center">
+              {ListItems.map((item) => (
+                <Flex
+                  className={`py-2 px-5 rounded-lg cursor-pointer ${
+                    isCurrentPath(item.link) && "bg-slate-100 dark:bg-[var(--gray-a2)]"
+                  }`}
+                  key={item.link}
+                  onClick={() => router.push(item.link)}
+                >
+                  <Text>{item.label}</Text>
+                </Flex>
+              ))}
+            </div>
           </Flex>
-          <div className="hidden md:flex items-center">
-            {ListItems.map((item) => (
-              <Flex
-                className={`py-2 px-5 rounded-lg cursor-pointer ${isCurrentPath(item.link) && "bg-slate-100"}`}
-                key={item.link}
-                onClick={() => router.push(item.link)}
-              >
-                <Text>{item.label}</Text>
-              </Flex>
-            ))}
-          </div>
         </Flex>
+        <Flex gap={"6"}></Flex>
         <Flex align={"center"} gap={"4"}>
+          <Flex gap={"3"} mr={"5"}>
+            {isDarkMode ? (
+              <MoonIcon color="gray" height={"20"} width={"20"} />
+            ) : (
+              <SunIcon color="gray" height={"20"} width={"20"} />
+            )}
+            <Switch checked={isDarkMode} onCheckedChange={(val) => setDarkMode(val)} />
+          </Flex>
+
           <FaRegBell className="text-2xl text-slate-400 cursor-pointer" />
           <FaCartShopping className="text-2xl cursor-pointer font-bold" />
           <Flex>
@@ -129,10 +146,10 @@ const HorizontalNavBar = () => {
       </Flex>
 
       <motion.div
-        className="md:hidden sm:block overflow-hidden shadow-sm border-b h-0"
+        className="md:hidden sm:block overflow-hidden shadow-sm border-b dark:border-b-[var(--gray-a2)] h-0"
         animate={isDropdownActive ? { height: "fit-content" } : { height: "0px" }}
       >
-        <Flex className="h-full w-full bg-white top-20" direction={"column"}>
+        <Flex className="h-full w-full top-20 bg-white dark:bg-[#111111] bg-s z-50" direction={"column"}>
           {ListItems.map((item) => (
             <Flex
               className="border-slate-100"
