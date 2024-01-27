@@ -28,6 +28,7 @@ const BrowsePage = () => {
   const [isLoading, setLoading] = useState(true);
 
   const getAllDonatedItems = async () => {
+    setLoading(true);
     const res = await OrganisationServices.getAllDonatedItems({
       searchText,
       categoryId: getEmptyOrValue(category),

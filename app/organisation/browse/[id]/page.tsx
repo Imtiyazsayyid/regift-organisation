@@ -24,6 +24,7 @@ const ProductDetailPage = ({ params }: Props) => {
   const router = useRouter();
 
   const getProductDetails = async () => {
+    setLoading(true);
     const res = await OrganisationServices.getSingleDonatedItem(params.id);
     if (!res.status) {
       toast.error("Error In Getting Item.");
