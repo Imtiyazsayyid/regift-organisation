@@ -21,3 +21,13 @@ export async function getOrganisationDetails() {
 export async function getAllDonatedItems(params) {
   return await Api().get("/donated-items", { params });
 }
+
+export async function getSingleDonatedItem(id) {
+  return await Api().get(`/donated-item/${id}`);
+}
+
+// Categories
+
+export async function getAllCategories(params) {
+  return await Api().get("/categories", { params });
+}

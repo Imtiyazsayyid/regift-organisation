@@ -1,7 +1,7 @@
 import { Flex, Heading, Text, Button } from "@radix-ui/themes";
 import ConditionBadge from "../../components/ConditionBadge";
 import React from "react";
-import { ArrowRightIcon } from "@radix-ui/react-icons";
+import { ArrowRightIcon, EyeOpenIcon } from "@radix-ui/react-icons";
 
 interface Props {
   id: number;
@@ -12,19 +12,9 @@ interface Props {
   category: string;
 }
 
-const ProductCard = ({
-  id,
-  title,
-  description,
-  img,
-  category,
-  condition,
-}: Props) => {
+const ProductCard = ({ id, title, description, img, category, condition }: Props) => {
   return (
-    <Flex
-      className="h-[450px] w-full rounded-xl overflow-hidden shadow-md border bg-white"
-      direction={"column"}
-    >
+    <Flex className="h-[450px] w-full overflow-hidden shadow-md border bg-white rounded-md" direction={"column"}>
       <Flex className="h-3/5 w-full">
         <img src={img} className="w-full h-full object-cover" />
       </Flex>
@@ -42,11 +32,11 @@ const ProductCard = ({
         </Flex>
 
         <Flex justify={"center"} gap={"1"}>
-          <Button color="blue" variant="soft" className="w-1/2">
+          <Button color="blue" className="w-1/2">
             Add to Cart
           </Button>
-          <Button variant="soft" color="violet">
-            <ArrowRightIcon />
+          <Button variant="surface" color="violet">
+            <EyeOpenIcon />
           </Button>
         </Flex>
       </Flex>

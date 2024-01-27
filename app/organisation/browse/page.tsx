@@ -1,19 +1,35 @@
 "use client";
 
 import SearchBar from "@/app/components/SearchBar";
-import { Flex, Grid } from "@radix-ui/themes";
+import { Flex, Grid, Text } from "@radix-ui/themes";
 import React, { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 import { DonatedItem } from "@/app/interfaces/DonatedItemInterface";
 import * as OrganisationServices from "../../Services/OrganisationServices";
 import toast from "react-hot-toast";
+import Seperator from "@/app/components/Seperator";
+import CategoryFilter from "@/app/components/CategoryFilter";
+import { getEmptyOrValue } from "../../helpers/selectHelpers";
+import ConditionFilter from "@/app/components/ConditionFilter";
+import { CaretDownIcon, CaretUpIcon } from "@radix-ui/react-icons";
 
 const BrowsePage = () => {
-  const [searchText, setSearchText] = useState("");
   const [donatedItems, setDonatedItems] = useState<DonatedItem[]>();
 
+  const [showFilters, setShowFilters] = useState(true);
+
+  // filters
+  const [searchText, setSearchText] = useState("");
+  const [category, setCategory] = useState("all");
+  const [condition, setCondition] = useState("all");
+
   const getAllDonatedItems = async () => {
-    const res = await OrganisationServices.getAllDonatedItems({ searchText });
+    const res = await OrganisationServices.getAllDonatedItems({
+      searchText,
+      categoryId: getEmptyOrValue(category),
+      condition: getEmptyOrValue(condition),
+    });
+
     if (!res.status) {
       toast.error("Could Not Fetch Items.");
     }
@@ -23,22 +39,40 @@ const BrowsePage = () => {
 
   useEffect(() => {
     getAllDonatedItems();
-  }, [searchText]);
+  }, [searchText, category, condition]);
 
   return (
     <Flex className="p-4 pt-10 md:p-16 h-full" direction={"column"} gap={"2"}>
-      <Flex className="w-full md:w-1/3 h-fit">
-        <SearchBar
-          searchText={searchText}
-          setSearchText={setSearchText}
-          placeholder="Find The Donation You Need"
-        />
+      <Grid gap={"2"} align={"end"} columns={{ sm: "1", md: "3" }}>
+        <Flex className="w-full h-fit" direction={"column"} gap={"4"}>
+          <SearchBar searchText={searchText} setSearchText={setSearchText} placeholder="Find The Donation You Need" />
+          <div
+            className="md:hidden flex gap-1 items-center w-fit font-bold"
+            onClick={() => setShowFilters(!showFilters)}
+          >
+            <Text>{showFilters ? "Hide" : "Show"} Filters</Text>
+            {showFilters ? <CaretUpIcon height={"20"} width={"20"} /> : <CaretDownIcon height={"20"} width={"20"} />}
+          </div>
+        </Flex>
+        {showFilters && (
+          <>
+            <Flex className="w-full h-fit mt-1 md:mt-0">
+              <CategoryFilter category={category} setCategory={setCategory} />
+            </Flex>
+            <Flex className="w-full h-fit mt-1 md:mt-0">
+              <ConditionFilter condition={condition} setCondition={setCondition} />
+            </Flex>
+          </>
+        )}
+      </Grid>
+      <Flex my={"1"}>
+        <Seperator />
       </Flex>
       <Grid
         columns={{ sm: "1", md: "3", xl: "5" }}
-        className="border rounded-xl bg-gray-200 shadow-xl h-full overflow-hidden overflow-y-auto"
-        p={"4"}
+        className="h-full overflow-hidden overflow-y-auto bg-slate-50"
         gap={"2"}
+        p={{ initial: "5" }}
       >
         {donatedItems?.map((item) => (
           <ProductCard

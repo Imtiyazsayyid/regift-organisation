@@ -49,10 +49,7 @@ const HorizontalNavBar = () => {
   const isCurrentPath = (itemLink: string) => {
     if (itemLink === "/organisation" && currentPath === "/organisation") {
       return true; // Exact match for home
-    } else if (
-      itemLink !== "/organisation" &&
-      currentPath.substring(13).startsWith(itemLink.substring(13))
-    ) {
+    } else if (itemLink !== "/organisation" && currentPath.substring(13).startsWith(itemLink.substring(13))) {
       return true; // Starts with for other links
     } else {
       return false;
@@ -66,10 +63,7 @@ const HorizontalNavBar = () => {
 
   return (
     <Flex className="fixed w-full z-50" direction={"column"}>
-      <Flex
-        className="min-h-20 h-20 max-h-20 w-full bg-white shadow-sm px-3 md:px-16 border"
-        justify={"between"}
-      >
+      <Flex className="min-h-20 h-20 max-h-20 w-full bg-white shadow-sm px-3 md:px-16 border" justify={"between"}>
         <div
           className="flex flex-col justify-center md:hidden cursor-piinter"
           onClick={() => setDropdownActive(!isDropdownActive)}
@@ -77,12 +71,7 @@ const HorizontalNavBar = () => {
           <IoMenu className="text-4xl" />
         </div>
         <Flex gap={"6"}>
-          <Flex
-            className="h-full w-full pl-10"
-            align={"center"}
-            justify={"end"}
-            gap={"2"}
-          >
+          <Flex className="h-full w-full pl-10" align={"center"} justify={"end"} gap={"2"}>
             <img
               src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Avicii_-_Logo.png"
               className="h-1/3 md:h-1/2 w-fit object-cover"
@@ -92,9 +81,7 @@ const HorizontalNavBar = () => {
           <div className="hidden md:flex items-center">
             {ListItems.map((item) => (
               <Flex
-                className={`py-2 px-5 rounded-lg cursor-pointer ${
-                  isCurrentPath(item.link) && "bg-slate-100"
-                }`}
+                className={`py-2 px-5 rounded-lg cursor-pointer ${isCurrentPath(item.link) && "bg-slate-100"}`}
                 key={item.link}
                 onClick={() => router.push(item.link)}
               >
@@ -110,11 +97,7 @@ const HorizontalNavBar = () => {
             <DropdownMenu.Root>
               <DropdownMenu.Trigger>
                 <Flex>
-                  <Avatar
-                    fallback={"?"}
-                    radius="full"
-                    className="cursor-pointer"
-                  />
+                  <Avatar fallback={"?"} radius="full" className="cursor-pointer" />
                 </Flex>
               </DropdownMenu.Trigger>
               <DropdownMenu.Content>
@@ -141,9 +124,7 @@ const HorizontalNavBar = () => {
 
       <motion.div
         className="md:hidden sm:block overflow-hidden shadow-sm border-b"
-        animate={
-          isDropdownActive ? { height: "fit-content" } : { height: "0px" }
-        }
+        animate={isDropdownActive ? { height: "fit-content" } : { height: "0px" }}
       >
         <Flex className="h-full w-full bg-white top-20" direction={"column"}>
           {ListItems.map((item) => (
@@ -155,12 +136,7 @@ const HorizontalNavBar = () => {
                 setDropdownActive(false);
               }}
             >
-              <Flex
-                gap={"3"}
-                className={`px-5 py-4 w-full ${
-                  isCurrentPath(item.link) && "bg-blue-600 text-white"
-                }`}
-              >
+              <Flex gap={"3"} className={`px-5 py-4 w-full ${isCurrentPath(item.link) && "bg-blue-100 text-blue-700"}`}>
                 {item.icon}
                 <Text>{item.label}</Text>
               </Flex>
