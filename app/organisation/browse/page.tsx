@@ -12,6 +12,7 @@ import CategoryFilter from "@/app/components/CategoryFilter";
 import { getEmptyOrValue } from "../../helpers/selectHelpers";
 import ConditionFilter from "@/app/components/ConditionFilter";
 import { CaretDownIcon, CaretUpIcon } from "@radix-ui/react-icons";
+import Loader from "@/app/components/Loader";
 
 const BrowsePage = () => {
   const [donatedItems, setDonatedItems] = useState<DonatedItem[]>();
@@ -22,6 +23,9 @@ const BrowsePage = () => {
   const [searchText, setSearchText] = useState("");
   const [category, setCategory] = useState("all");
   const [condition, setCondition] = useState("all");
+
+  // loader
+  const [isLoading, setLoading] = useState(true);
 
   const getAllDonatedItems = async () => {
     const res = await OrganisationServices.getAllDonatedItems({
@@ -35,6 +39,7 @@ const BrowsePage = () => {
     }
 
     setDonatedItems(res.data.data);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -57,10 +62,10 @@ const BrowsePage = () => {
         {showFilters && (
           <>
             <Flex className="w-full h-fit mt-1 md:mt-0">
-              <CategoryFilter category={category} setCategory={setCategory} />
+              <ConditionFilter condition={condition} setCondition={setCondition} />
             </Flex>
             <Flex className="w-full h-fit mt-1 md:mt-0">
-              <ConditionFilter condition={condition} setCondition={setCondition} />
+              <CategoryFilter category={category} setCategory={setCategory} />
             </Flex>
           </>
         )}
@@ -68,23 +73,35 @@ const BrowsePage = () => {
       <Flex my={"1"}>
         <Seperator />
       </Flex>
+
       <Grid
         columns={{ sm: "1", md: "3", xl: "5" }}
         className="h-full overflow-hidden overflow-y-auto bg-slate-50"
         gap={"2"}
         p={{ initial: "5" }}
       >
-        {donatedItems?.map((item) => (
-          <ProductCard
-            id={item.id}
-            condition={item.condition}
-            category={item.category.name}
-            title={item.title}
-            description={item.description || "No Description Available."}
-            img={item.image}
-            key={item.id}
-          />
-        ))}
+        {isLoading && (
+          <Flex className="col-span-full">
+            <Loader isLoading={isLoading} />
+          </Flex>
+        )}
+        {!isLoading && donatedItems && donatedItems?.length == 0 && (
+          <Flex className="col-span-full" justify={"center"} p={"9"}>
+            <Text>Sorry, No Items Found.</Text>
+          </Flex>
+        )}
+        {!isLoading &&
+          donatedItems?.map((item) => (
+            <ProductCard
+              id={item.id}
+              condition={item.condition}
+              category={item.category.name}
+              title={item.title}
+              description={item.description || "No Description Available."}
+              img={item.image}
+              key={item.id}
+            />
+          ))}
       </Grid>
     </Flex>
   );

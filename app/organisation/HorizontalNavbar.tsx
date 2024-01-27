@@ -123,7 +123,7 @@ const HorizontalNavBar = () => {
       </Flex>
 
       <motion.div
-        className="md:hidden sm:block overflow-hidden shadow-sm border-b"
+        className="md:hidden sm:block overflow-hidden shadow-sm border-b h-0"
         animate={isDropdownActive ? { height: "fit-content" } : { height: "0px" }}
       >
         <Flex className="h-full w-full bg-white top-20" direction={"column"}>
