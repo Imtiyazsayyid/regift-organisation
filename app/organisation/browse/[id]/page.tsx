@@ -54,8 +54,8 @@ const ProductDetailPage = ({ params }: Props) => {
       </div>
       <Grid
         className="border dark:border-stone-800 w-full rounded-xl overflow-hidden shadow-md relative"
-        columns={{ sm: "1", md: "2" }}
-        rows={{ initial: "2", md: "1" }}
+        columns={{ initial: "1", lg: "2" }}
+        rows={{ initial: "2", lg: "1" }}
       >
         <Flex className="h-full w-full relative">
           <img src={product?.image} className="h-full w-full object-cover" />

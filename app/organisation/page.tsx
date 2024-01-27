@@ -7,7 +7,7 @@ export default function Home() {
         <Heading size={{ initial: "4", md: "9" }} align={"center"}>
           Welcome To <span className="text-[var(--crimson-a9)]">ReGift</span> Organisations.
         </Heading>
-        <Text className="md:w-1/4 text-slate-500" size={{ initial: "1", md: "3" }} align={"center"}>
+        <Text className="md:w-1/3 text-slate-500" size={{ initial: "1", md: "3" }} align={"center"}>
           The place where you can donate freely while being assured it goes to the right person.
         </Text>
       </Flex>

@@ -80,10 +80,6 @@ const HorizontalNavBar = ({ isDarkMode, setDarkMode }: Props) => {
             <IoMenu className="text-4xl" />
           </div>
           <Flex className="h-full w-full cursor-pointer" align={"center"} justify={"start"} gap={"5"}>
-            {/* <img
-              src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Avicii_-_Logo.png"
-              className="h-1/3 md:h-1/2 w-fit object-cover"
-            /> */}
             <Flex gap={"2"} align={"center"} onClick={() => router.push("/organisation")}>
               <GlobeIcon className="h-8 w-8 md:h-10 md:w-10" />
               <Heading size={{ initial: "3", sm: "5" }}>Regift</Heading>
@@ -105,7 +101,7 @@ const HorizontalNavBar = ({ isDarkMode, setDarkMode }: Props) => {
         </Flex>
         <Flex gap={"6"}></Flex>
         <Flex align={"center"} gap={"4"}>
-          <Flex gap={"3"} mr={"5"}>
+          <Flex gap={"3"} mr={{ initial: "1", md: "5" }}>
             {isDarkMode ? (
               <MoonIcon color="gray" height={"20"} width={"20"} />
             ) : (
