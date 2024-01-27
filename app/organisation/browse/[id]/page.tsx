@@ -68,7 +68,7 @@ const ProductDetailPage = ({ params }: Props) => {
           </Flex>
           {product?.description && (
             <Text align={"center"} mx={{ lg: "9" }}>
-              "{product?.description}"
+              &quot;{product?.description}&quot;
             </Text>
           )}
           <Flex justify={"center"} mt={"9"}>
