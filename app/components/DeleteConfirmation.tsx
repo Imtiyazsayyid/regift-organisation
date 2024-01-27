@@ -24,14 +24,23 @@ const DeleteConfirmation = ({ confirmDelete, removedItem }: Props) => {
 
         <Flex gap="3" mt="8" justify="end">
           <AlertDialog.Cancel>
-            <Button variant="soft" color="gray">
+            <Flex
+              className="py-2 px-3 rounded-md text-md bg-[var(--gray-a6)] cursor-pointer"
+              justify={"center"}
+              align={"center"}
+            >
               Cancel
-            </Button>
+            </Flex>
           </AlertDialog.Cancel>
           <AlertDialog.Action>
-            <Button variant="solid" color="crimson" onClick={confirmDelete}>
+            <Flex
+              className="py-2 px-3 rounded-md text-md bg-[var(--red-a6)] cursor-pointer"
+              justify={"center"}
+              align={"center"}
+              onClick={confirmDelete}
+            >
               Delete
-            </Button>
+            </Flex>
           </AlertDialog.Action>
         </Flex>
       </AlertDialog.Content>

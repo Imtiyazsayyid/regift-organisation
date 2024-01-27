@@ -8,20 +8,26 @@ import { CartItem } from "@/app/interfaces/CartItemInterface";
 import toast from "react-hot-toast";
 import DeleteConfirmation from "@/app/components/DeleteConfirmation";
 import Separator from "../../components/Seperator";
+import Loader from "@/app/components/Loader";
 
 const CartPage = () => {
   const [cart, setCart] = useState<CartItem[]>([]);
 
+  const [isLoading, setLoading] = useState(true);
+
   const getAllCartItems = async () => {
+    setLoading(true);
     const res = await OrganisationServices.getAllCartItems();
     if (!res.status) {
       toast.error("Could Not Get Cart Items");
       return;
     }
     setCart(res.data.data);
+    setLoading(false);
   };
 
   const deleteCartItem = async (id: number) => {
+    setLoading(true);
     const res = await OrganisationServices.deleteCartItem(id);
     if (!res.status) {
       toast.error("Item Could Not Be Removed.");
@@ -29,6 +35,7 @@ const CartPage = () => {
     }
     getAllCartItems();
     toast.success("Item Removed From Cart.");
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -42,46 +49,64 @@ const CartPage = () => {
           Your Cart
         </Heading>
         <Separator className="my-10 md:mt-20" />
-        {cart.length > 0 && <Text className="text-sm text-slate-400">Total Items: {cart.length}</Text>}
-        {cart.length > 0 && (
-          <Flex className="h-2/3 bg-slate-50 dark:bg-[var(--gray-a2)]" px={"4"} py={"4"} direction={"column"} gap={"2"}>
-            {cart.map((cartItem) => (
+        {!isLoading && (
+          <>
+            {cart.length > 0 && <Text className="text-sm text-slate-400">Total Items: {cart.length}</Text>}
+            {cart.length > 0 && (
               <Flex
-                className="h-20 w-full rounded-xl border border-[var(--gray-a4)] p-3 shadow-md bg-white dark:bg-[var(--gray-a2)]"
-                align={"center"}
-                gap={"3"}
-                key={cartItem.id}
+                className="h-2/3 bg-slate-50 dark:bg-[var(--gray-a2)]"
+                px={"4"}
+                py={"4"}
+                direction={"column"}
+                gap={"2"}
               >
-                <Avatar fallback={"?"} size={"4"} src={cartItem.donatedItem.image} />
-                <Flex className="w-full md:w-1/2 h-full" direction={"column"} justify={"center"}>
-                  <Heading size={{ initial: "2", md: "4" }}>{cartItem.donatedItem.title}</Heading>
-                </Flex>
-                <div className="w-1/2 hidden md:flex">
-                  <Text className="text-xs text-slate-400">{cartItem.donatedItem.category.name}</Text>
-                </div>
-                <Flex className="md:mr-5">
-                  <DeleteConfirmation
-                    confirmDelete={() => deleteCartItem(cartItem.id)}
-                    removedItem={`"${cartItem.donatedItem.title}"` + " from cart"}
-                  />
-                </Flex>
+                {cart.map((cartItem) => (
+                  <Flex
+                    className="h-20 w-full rounded-xl border border-[var(--gray-a4)] p-3 shadow-md bg-white dark:bg-[var(--gray-a2)]"
+                    align={"center"}
+                    gap={"3"}
+                    key={cartItem.id}
+                  >
+                    <Avatar fallback={"?"} size={"4"} src={cartItem.donatedItem.image} />
+                    <Flex className="w-full md:w-1/2 h-full" direction={"column"} justify={"center"}>
+                      <Heading size={{ initial: "2", md: "4" }}>{cartItem.donatedItem.title}</Heading>
+                    </Flex>
+                    <div className="w-1/2 hidden md:flex">
+                      <Text className="text-xs text-slate-400">{cartItem.donatedItem.category.name}</Text>
+                    </div>
+                    <Flex className="md:mr-5">
+                      <DeleteConfirmation
+                        confirmDelete={() => deleteCartItem(cartItem.id)}
+                        removedItem={`"${cartItem.donatedItem.title}"` + " from cart"}
+                      />
+                    </Flex>
+                  </Flex>
+                ))}
               </Flex>
-            ))}
-          </Flex>
+            )}
+            {cart.length > 0 && (
+              <Flex justify={"end"}>
+                <Button color="grass" variant="soft">
+                  Checkout <ArrowRightIcon />
+                </Button>
+              </Flex>
+            )}
+            {cart.length == 0 && (
+              <Flex className="h-full" direction={"column"} gap={"2"} justify={"start"} py={{ initial: "9", md: "0" }}>
+                <Heading align={"center"} size={{ initial: "3", md: "6" }}>
+                  Add An Item To Cart.
+                </Heading>
+                <Text className="text-xs text-slate-500" align={"center"}>
+                  Items Added To Cart Will Appear Here
+                </Text>
+              </Flex>
+            )}
+          </>
         )}
-        <Flex justify={"end"}>
-          <Button color="grass" variant="soft">
-            Checkout <ArrowRightIcon />
-          </Button>
-        </Flex>
-        {cart.length == 0 && (
-          <Flex className="h-full" direction={"column"} gap={"2"} justify={"center"} py={{ initial: "9", md: "0" }}>
-            <Heading align={"center"} size={{ initial: "3", md: "6" }}>
-              Add An Item To Cart.
-            </Heading>
-            <Text className="text-xs text-slate-500" align={"center"}>
-              Items Added To Cart Will Appear Here
-            </Text>
+
+        {isLoading && (
+          <Flex className="h-1/2" direction={"column"} gap={"2"} justify={"center"}>
+            <Loader isLoading={isLoading} />
           </Flex>
         )}
       </Flex>
