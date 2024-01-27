@@ -6,7 +6,7 @@ const Loader = ({ isLoading }: { isLoading: boolean }) => {
   if (!isLoading) return null;
   return (
     <Flex className="h-full w-full" justify={"center"} align={"center"}>
-      <PuffLoader color={"var(--blue-a11)"} loading={isLoading} aria-label="Loading Spinner" data-testid="loader" />
+      <PuffLoader color={"var(--crimson-a11)"} loading={isLoading} aria-label="Loading Spinner" data-testid="loader" />
     </Flex>
   );
 };
