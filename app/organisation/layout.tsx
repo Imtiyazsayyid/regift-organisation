@@ -5,29 +5,29 @@ import HorizontalNavbar from "./HorizontalNavbar";
 import { useEffect, useState } from "react";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const [isDarkMode, setDarkMode] = useState(() => {
-    if (typeof window !== "undefined") {
-      // Check if localStorage is available
-      const savedDarkMode = localStorage.getItem("isDarkMode");
-      return savedDarkMode ? JSON.parse(savedDarkMode) : false;
-    } else {
-      // Default to false if localStorage is not available
-      return false;
-    }
-  });
+  const [theme, setTheme] = useState("");
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      // Check if localStorage is available before saving
-      localStorage.setItem("isDarkMode", JSON.stringify(isDarkMode));
-      console.log("here");
+    // console.log(localStorage.getItem("theme"));
+
+    if (theme == "") {
+      let localStorageTheme = localStorage.getItem("theme");
+      if (localStorageTheme) {
+        setTheme(localStorageTheme);
+      }
+    } else {
+      setTheme(theme);
+      localStorage.setItem("theme", theme);
     }
-  }, [isDarkMode, window]);
+  }, [theme]);
 
   return (
-    <Theme appearance={isDarkMode ? "dark" : "light"} className="h-full">
+    <Theme appearance={theme as "light" | "dark"} className="h-full">
       <Flex className="h-full w-full" direction={"column"}>
-        <HorizontalNavbar isDarkMode={isDarkMode} setDarkMode={setDarkMode} />
+        <HorizontalNavbar
+          isDarkMode={theme === "dark" ? true : false}
+          setDarkMode={(isDarkMode) => setTheme(isDarkMode ? "dark" : "light")}
+        />
         <main className="h-full w-full pt-20">{children}</main>
       </Flex>
     </Theme>
