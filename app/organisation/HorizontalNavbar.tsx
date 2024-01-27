@@ -111,7 +111,10 @@ const HorizontalNavBar = ({ isDarkMode, setDarkMode }: Props) => {
           </Flex>
 
           <FaRegBell className="text-2xl text-slate-400 cursor-pointer" />
-          <FaCartShopping className="text-2xl cursor-pointer font-bold" />
+          <FaCartShopping
+            className="text-2xl cursor-pointer font-bold"
+            onClick={() => router.push("/organisation/cart")}
+          />
           <Flex>
             <DropdownMenu.Root>
               <DropdownMenu.Trigger>

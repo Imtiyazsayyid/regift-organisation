@@ -32,7 +32,15 @@ const ApprovalStatusFilter = ({ category, setCategory }: Props) => {
       <Text className="text-xs text-slate-500">Category</Text>
       <Select.Root value={category} onValueChange={(val) => setCategory(val)} size={"3"}>
         <Select.Trigger className="w-full" />
-        <Select.Content position="popper">
+        <Select.Content
+          position="popper"
+          ref={(ref) => {
+            if (!ref) return;
+            ref.ontouchstart = (e) => {
+              e.preventDefault();
+            };
+          }}
+        >
           <Select.Item value={"all"}>All</Select.Item>
           {categories.map((category) => (
             <Select.Item value={category.id.toString()} key={category.id}>

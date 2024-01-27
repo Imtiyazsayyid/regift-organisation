@@ -11,6 +11,7 @@ import ConditionBadge from "../../../components/ConditionBadge";
 import Loader from "@/app/components/Loader";
 import { ArrowLeftIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/navigation";
+import { CartItem } from "@/app/interfaces/CartItemInterface";
 
 interface Props {
   params: {
@@ -21,7 +22,21 @@ interface Props {
 const ProductDetailPage = ({ params }: Props) => {
   const [product, setProduct] = useState<DonatedItem>();
   const [isLoading, setLoading] = useState(true);
+  // const [isInCart, setIsInCart] = useState(false);
+  const [currentCartItem, setCartItem] = useState<CartItem>();
+
   const router = useRouter();
+
+  const checkProductInCart = async () => {
+    const res = await OrganisationServices.getAllCartItems();
+    if (!res.status) return;
+
+    const cart: CartItem[] = res.data.data;
+
+    let currentProduct = cart.find((item) => item.donatedItemId === parseInt(params.id));
+
+    setCartItem(currentProduct);
+  };
 
   const getProductDetails = async () => {
     setLoading(true);
@@ -33,8 +48,30 @@ const ProductDetailPage = ({ params }: Props) => {
     setLoading(false);
   };
 
+  const removeFromCart = async () => {
+    if (currentCartItem) {
+      const res = await OrganisationServices.deleteCartItem(currentCartItem?.id);
+      if (!res.status) {
+        toast.error("Item could not be removed from cart.");
+        return;
+      }
+      setCartItem(undefined);
+      toast.success("Item Removed From Cart.");
+    }
+  };
+
+  const addProductToCart = async () => {
+    const res = await OrganisationServices.saveCartItem({ donatedItemId: product?.id });
+    if (!res.status) {
+      toast.error("Item was not added to Cart.");
+    }
+    checkProductInCart();
+    toast.success("Added to Cart.");
+  };
+
   useEffect(() => {
     getProductDetails();
+    checkProductInCart();
   }, []);
 
   if (!product || isLoading) {
@@ -82,7 +119,14 @@ const ProductDetailPage = ({ params }: Props) => {
             </Text>
           )}
           <Flex justify={"center"} mt={"9"}>
-            <Button className="w-2/3">Add To Cart</Button>
+            <Button
+              className="w-2/3"
+              onClick={() => {
+                currentCartItem ? removeFromCart() : addProductToCart();
+              }}
+            >
+              {currentCartItem ? "Remove From Cart" : "Add To Cart"}
+            </Button>
           </Flex>
         </Flex>
       </Grid>
