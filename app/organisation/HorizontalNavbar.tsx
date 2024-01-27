@@ -71,7 +71,13 @@ const HorizontalNavBar = () => {
           <IoMenu className="text-4xl" />
         </div>
         <Flex gap={"6"}>
-          <Flex className="h-full w-full pl-10" align={"center"} justify={"end"} gap={"2"}>
+          <Flex
+            className="h-full w-full pl-10 cursor-pointer"
+            align={"center"}
+            justify={"end"}
+            gap={"2"}
+            onClick={() => router.push("/organisation")}
+          >
             <img
               src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Avicii_-_Logo.png"
               className="h-1/3 md:h-1/2 w-fit object-cover"
@@ -136,7 +142,13 @@ const HorizontalNavBar = () => {
                 setDropdownActive(false);
               }}
             >
-              <Flex gap={"3"} className={`px-5 py-4 w-full ${isCurrentPath(item.link) && "bg-blue-100 text-blue-700"}`}>
+              {isCurrentPath(item.link) && <div className="w-1 bg-[var(--crimson-a9)]"></div>}
+              <Flex
+                gap={"3"}
+                className={`px-5 py-4 w-full ${
+                  isCurrentPath(item.link) && "bg-[var(--crimson-a3)] text-[var(--crimson-a9)]"
+                }`}
+              >
                 {item.icon}
                 <Text>{item.label}</Text>
               </Flex>

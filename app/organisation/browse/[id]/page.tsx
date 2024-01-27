@@ -9,6 +9,8 @@ import toast from "react-hot-toast";
 
 import ConditionBadge from "../../../components/ConditionBadge";
 import Loader from "@/app/components/Loader";
+import { ArrowLeftIcon } from "@radix-ui/react-icons";
+import { useRouter } from "next/navigation";
 
 interface Props {
   params: {
@@ -19,6 +21,7 @@ interface Props {
 const ProductDetailPage = ({ params }: Props) => {
   const [product, setProduct] = useState<DonatedItem>();
   const [isLoading, setLoading] = useState(true);
+  const router = useRouter();
 
   const getProductDetails = async () => {
     const res = await OrganisationServices.getSingleDonatedItem(params.id);
@@ -43,12 +46,18 @@ const ProductDetailPage = ({ params }: Props) => {
 
   return (
     <Flex p={{ initial: "4", md: "9" }} className="h-full">
+      <div
+        className="hidden lg:block fixed top-28 left-19 p-2 rounded-full bg-[var(--crimson-a3)] text-[var(--crimson-a9)] z-50 cursor-pointer"
+        onClick={() => router.back()}
+      >
+        <ArrowLeftIcon />
+      </div>
       <Grid
-        className="border w-full rounded-xl overflow-hidden shadow-md"
+        className="border w-full rounded-xl overflow-hidden shadow-md relative"
         columns={{ sm: "1", md: "2" }}
         rows={{ initial: "2", md: "1" }}
       >
-        <Flex className="h-full w-full">
+        <Flex className="h-full w-full relative">
           <img src={product?.image} className="h-full w-full object-cover" />
         </Flex>
         <Flex

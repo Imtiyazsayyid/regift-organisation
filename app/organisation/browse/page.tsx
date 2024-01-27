@@ -76,7 +76,7 @@ const BrowsePage = () => {
 
       <Grid
         columns={{ sm: "1", md: "3", xl: "5" }}
-        className="h-full overflow-hidden overflow-y-auto bg-slate-50"
+        className="h-full overflow-hidden overflow-y-auto"
         gap={"2"}
         p={{ initial: "5" }}
       >
