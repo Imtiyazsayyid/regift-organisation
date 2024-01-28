@@ -28,7 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           setDarkMode={(isDarkMode) => setTheme(isDarkMode ? "dark" : "light")}
         />
         <Toaster />
-        <main className="h-full w-full pt-20">{children}</main>
+        <main className="h-full w-full pt-20 overflow-hidden overflow-y-auto">{children}</main>
       </Flex>
     </Theme>
   );

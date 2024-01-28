@@ -1,14 +1,5 @@
 "use client";
-import {
-  Avatar,
-  Button,
-  Flex,
-  Select,
-  Text,
-  TextArea,
-  TextField,
-  Grid,
-} from "@radix-ui/themes";
+import { Avatar, Button, Flex, Select, Text, TextArea, TextField, Grid } from "@radix-ui/themes";
 import React, { useEffect, useState } from "react";
 import { CldUploadWidget, CldImage } from "next-cloudinary";
 import { organisationSchema } from "../validationSchemas";
@@ -26,22 +17,12 @@ interface Props {
   name?: string;
   acronym?: string;
   email?: string;
-  password?: string;
   websiteUrl?: string;
   logo?: string;
   address?: string;
 }
 
-const OrganisationForm = ({
-  id,
-  name,
-  acronym,
-  email,
-  password,
-  websiteUrl,
-  logo,
-  address,
-}: Props) => {
+const OrganisationForm = ({ id, name, acronym, email, password, websiteUrl, logo, address }: Props) => {
   const router = useRouter();
 
   const [organisationDetails, setOrganisationDetails] = useState({
@@ -112,13 +93,9 @@ const OrganisationForm = ({
   };
 
   return (
-    <Flex
-      className="w-full px-4 sm:px-8 md:px-12 lg:px-16"
-      direction={"column"}
-      gap={"5"}
-    >
+    <Flex className="h-full w-full px-4 sm:px-8 md:px-12 lg:px-16" direction={"column"} gap={"5"}>
       {/* row 1 */}
-      <Flex className="w-full" gap={"4"} align={"end"}>
+      <Flex className="w-full" gap={"4"} justify={"center"} mt={{ initial: "0", md: "9" }}>
         <CldUploadWidget
           options={{
             sources: ["local", "url"],
@@ -166,7 +143,7 @@ const OrganisationForm = ({
               }}
             >
               <Avatar
-                fallback={"?"}
+                fallback={organisationDetails.acronym}
                 radius="full"
                 size={"9"}
                 mb={"9"}
@@ -179,7 +156,7 @@ const OrganisationForm = ({
       </Flex>
 
       {/* row 2 */}
-      <div className="w-full grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-4">
+      <div className="w-full grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-4 items-end">
         {/* Organisation name */}
         <Flex direction={"column"} className="w-full" gap={"1"}>
           <Text className="text-xs text-slate-400">Name</Text>
@@ -290,7 +267,7 @@ const OrganisationForm = ({
         <Flex className="w-full"></Flex>
       </div>
 
-      <Flex justify={"center"} mt={"9"}>
+      <Flex justify={"center"} mt={{ md: "6" }}>
         <Flex className="w-full sm:w-full lg:w-1/3" gap={"2"} justify="center">
           <Button onClick={() => handleSave()} className="w-1/2">
             Save

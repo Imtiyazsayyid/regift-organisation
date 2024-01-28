@@ -90,7 +90,7 @@ const HorizontalNavBar = ({ isDarkMode, setDarkMode }: Props) => {
   };
 
   return (
-    <Flex className="fixed w-full z-50" direction={"column"}>
+    <Flex className="fixed w-full z-50 bg-white dark:bg-[#111111]" direction={"column"}>
       <Flex
         className="min-h-20 h-20 max-h-20 w-full shadow-sm px-3 md:px-16 border-b dark:border-b-[var(--gray-a2)] border-slate-50"
         justify={"between"}
@@ -148,7 +148,9 @@ const HorizontalNavBar = ({ isDarkMode, setDarkMode }: Props) => {
               <DropdownMenu.Trigger>
                 <Flex>
                   <Avatar
+                    size={"2"}
                     fallback={<span className="text-sm">{organisation?.acronym || "?"}</span>}
+                    src={organisation?.logo || ""}
                     radius="full"
                     className="cursor-pointer"
                   />
@@ -160,10 +162,14 @@ const HorizontalNavBar = ({ isDarkMode, setDarkMode }: Props) => {
                     <GearIcon /> Settings
                   </Flex>
                 </DropdownMenu.Item>
-                <DropdownMenu.Item onClick={() => {router.push("/organisation/profile")}}>
-                    <Flex gap={"2"} align={"center"}>
-                      <PersonIcon /> Profile
-                    </Flex>
+                <DropdownMenu.Item
+                  onClick={() => {
+                    router.push("/organisation/profile");
+                  }}
+                >
+                  <Flex gap={"2"} align={"center"}>
+                    <PersonIcon /> Profile
+                  </Flex>
                 </DropdownMenu.Item>
                 <DropdownMenu.Item onClick={() => signOut()}>
                   <Flex gap={"2"} align={"center"}>
