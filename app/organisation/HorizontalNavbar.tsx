@@ -18,6 +18,7 @@ import { motion } from "framer-motion";
 
 import * as OrganisationServices from "../Services/OrganisationServices";
 import { TokenService } from "../Services/StorageService";
+import { Organisation } from "../interfaces/OrganisationInterface";
 
 interface Props {
   isDarkMode: boolean;
@@ -25,8 +26,30 @@ interface Props {
 }
 
 const HorizontalNavBar = ({ isDarkMode, setDarkMode }: Props) => {
+  const [organisation, setOrganisation] = useState<Organisation>();
+  const [itemsInCart, setItemsInCart] = useState(true);
+
+  const getOrganisationDetails = async () => {
+    const res = await OrganisationServices.getOrganisationDetails();
+    if (!res.status) return;
+    setOrganisation(res.data.data);
+  };
+
+  const getCartDetails = async () => {
+    const res = await OrganisationServices.getAllCartItems();
+    if (!res.status) return;
+
+    setItemsInCart(res.data.data.length > 0 ? true : false);
+  };
+
   useEffect(() => {
-    OrganisationServices.getOrganisationDetails();
+    getCartDetails();
+    const intervalId = setInterval(getCartDetails, 5000);
+    return () => clearInterval(intervalId);
+  }, []);
+
+  useEffect(() => {
+    getOrganisationDetails();
   }, []);
 
   const ListItems = [
@@ -111,10 +134,15 @@ const HorizontalNavBar = ({ isDarkMode, setDarkMode }: Props) => {
           </Flex>
 
           <FaRegBell className="text-2xl text-slate-400 cursor-pointer" />
-          <FaCartShopping
-            className="text-2xl cursor-pointer font-bold"
-            onClick={() => router.push("/organisation/cart")}
-          />
+          <Flex align={"end"} className="relative">
+            <FaCartShopping
+              className="text-2xl cursor-pointer font-bold"
+              onClick={() => router.push("/organisation/cart")}
+            />
+            {itemsInCart && (
+              <Flex className="w-3 h-3 bg-[var(--crimson-a11)] rounded-full relative right-2 bottom-4"></Flex>
+            )}
+          </Flex>
           <Flex>
             <DropdownMenu.Root>
               <DropdownMenu.Trigger>

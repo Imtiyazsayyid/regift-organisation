@@ -35,7 +35,6 @@ const CartPage = () => {
     }
     getAllCartItems();
     toast.success("Item Removed From Cart.");
-    setLoading(false);
   };
 
   useEffect(() => {
