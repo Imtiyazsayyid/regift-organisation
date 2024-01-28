@@ -103,7 +103,7 @@ const OrderPage = () => {
             <Text>Sorry, No Items Found.</Text>
           </Flex>
         )}
-        {!isLoading && orders?.map((order) => <OrderCard order={order} cancelOrder={cancelOrder} />)}
+        {!isLoading && orders?.map((order) => <OrderCard key={order.id} order={order} cancelOrder={cancelOrder} />)}
       </Grid>
     </Flex>
   );
