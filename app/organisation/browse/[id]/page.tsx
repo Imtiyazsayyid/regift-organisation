@@ -87,7 +87,7 @@ const ProductDetailPage = ({ params }: Props) => {
         align={"center"}
         onClick={() => router.push("/organisation/cart")}
       >
-        <FaRegEye className="h-6 w-6" color="pink" /> Click To View Cart
+        <FaRegEye className="h-6 w-6" color="crimson" /> Click To View Cart
       </Flex>
     );
     setButtonLoading(false);
@@ -143,17 +143,19 @@ const ProductDetailPage = ({ params }: Props) => {
             </Text>
           )}
 
-          <Flex justify={"center"} mt={"9"}>
-            <Button
-              className="w-2/3"
-              disabled={buttonLoading}
-              onClick={() => {
-                currentCartItem ? removeFromCart() : addProductToCart();
-              }}
-            >
-              {currentCartItem ? "Remove From Cart" : "Add To Cart"}
-            </Button>
-          </Flex>
+          {product.isAvailable && (
+            <Flex justify={"center"} mt={"9"}>
+              <Button
+                className="w-2/3"
+                disabled={buttonLoading}
+                onClick={() => {
+                  currentCartItem ? removeFromCart() : addProductToCart();
+                }}
+              >
+                {currentCartItem ? "Remove From Cart" : "Add To Cart"}
+              </Button>
+            </Flex>
+          )}
         </Flex>
       </Grid>
     </Flex>

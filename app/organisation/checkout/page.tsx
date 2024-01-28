@@ -59,6 +59,7 @@ const CheckoutPage = () => {
       return;
     }
     toast.success("Order Placed.");
+    router.push("/organisation/orders");
   };
 
   useEffect(() => {
