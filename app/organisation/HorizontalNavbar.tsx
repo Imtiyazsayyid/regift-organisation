@@ -147,7 +147,11 @@ const HorizontalNavBar = ({ isDarkMode, setDarkMode }: Props) => {
             <DropdownMenu.Root>
               <DropdownMenu.Trigger>
                 <Flex>
-                  <Avatar fallback={"?"} radius="full" className="cursor-pointer" />
+                  <Avatar
+                    fallback={<span className="text-sm">{organisation?.acronym || "?"}</span>}
+                    radius="full"
+                    className="cursor-pointer"
+                  />
                 </Flex>
               </DropdownMenu.Trigger>
               <DropdownMenu.Content>

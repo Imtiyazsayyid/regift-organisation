@@ -71,7 +71,7 @@ const ProductDetailPage = ({ params }: Props) => {
 
   const addProductToCart = async () => {
     setButtonLoading(true);
-    const loadingToastId = toast.loading("Adding item from cart...");
+    const loadingToastId = toast.loading("Adding item to cart...");
     const res = await OrganisationServices.saveCartItem({ donatedItemId: product?.id });
     toast.dismiss(loadingToastId);
     if (!res.status) {

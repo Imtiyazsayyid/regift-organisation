@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRightIcon, TrashIcon } from "@radix-ui/react-icons";
+import { ArrowLeftIcon, ArrowRightIcon, TrashIcon } from "@radix-ui/react-icons";
 import { Avatar, Button, Container, Flex, Heading, Text } from "@radix-ui/themes";
 import React, { useEffect, useState } from "react";
 import * as OrganisationServices from "../../Services/OrganisationServices";
@@ -10,9 +10,11 @@ import DeleteConfirmation from "@/app/components/DeleteConfirmation";
 import Separator from "../../components/Seperator";
 import Loader from "@/app/components/Loader";
 import { useRouter } from "next/navigation";
+import { Organisation } from "@/app/interfaces/OrganisationInterface";
 
-const CartPage = () => {
-  const [cart, setCart] = useState<CartItem[]>([]);
+const CheckoutPage = () => {
+  const [cart, setCart] = useState<CartItem[]>();
+  const [organisation, setOrganisation] = useState<Organisation>();
   const router = useRouter();
   const [isLoading, setLoading] = useState(true);
 
@@ -24,6 +26,17 @@ const CartPage = () => {
       return;
     }
     setCart(res.data.data);
+    setLoading(false);
+  };
+
+  const getOrganisationDetails = async () => {
+    setLoading(true);
+    const res = await OrganisationServices.getOrganisationDetails();
+    if (!res.status) {
+      toast.error("Could Not Get Organisation Details");
+      return;
+    }
+    setOrganisation(res.data.data);
     setLoading(false);
   };
 
@@ -40,21 +53,54 @@ const CartPage = () => {
 
   useEffect(() => {
     getAllCartItems();
+    getOrganisationDetails();
   }, []);
+
+  useEffect(() => {
+    if (cart && cart.length === 0) {
+      router.push("/organisation/cart");
+    }
+  }, [cart]);
 
   return (
     <Flex direction={"column"} p={{ initial: "6", md: "9" }} className="h-full" align={"center"}>
       <Flex direction={"column"} gap={"2"} className="h-full w-full md:w-2/3">
-        <Heading size={{ initial: "6", md: "9" }} align={"center"}>
-          Your Cart
-        </Heading>
+        <Heading size={{ initial: "6", md: "9" }}>Checkout</Heading>
+        <Text className="text-md text-slate-500 md:w-2/3">
+          Easy and hassle-free checkout: Complete your order in seconds, no payment required! Simply review your
+          selections, confirm your details, and enjoy your free order.
+        </Text>
         <Separator className="my-10 md:mt-20" />
+        <Flex className="pb-10" gap={"4"}>
+          <Flex direction={"column"} className="w-2/3 md:w-1/3">
+            <Text>Delivery Address</Text>
+            <Flex className="text-sm text-slate-500" direction={"column"}>
+              {organisation?.address.split("\n").map((line, index) => (
+                <Text key={index} className="text-sm text-slate-500">
+                  {line}
+                </Text>
+              ))}
+            </Flex>
+          </Flex>
+          <Flex className="w-1/3 md:w-2/3 p-5" align={"end"} direction={"column"}>
+            <Flex direction={"column"} align={"center"} gap={"2"}>
+              <Button className="w-full" variant="soft" color="violet">
+                Profile <ArrowRightIcon />
+              </Button>
+              <Text className="text-xs text-center">Need To Change Address?</Text>
+            </Flex>
+          </Flex>
+        </Flex>
         {!isLoading && (
           <>
-            {cart.length > 0 && <Text className="text-sm text-slate-400">Total Items: {cart.length}</Text>}
-            {cart.length > 0 && (
+            {cart && cart.length > 0 && (
+              <Text className="text-sm text-slate-400">
+                Total Items: <Text className="text-lg font-bold text-black dark:text-slate-300">{cart.length}</Text>{" "}
+              </Text>
+            )}
+            {cart && cart.length > 0 && (
               <Flex
-                className="h-2/3 overflow-hidden overflow-y-auto bg-slate-50 dark:bg-[var(--gray-a2)]"
+                className="h-2/3 bg-slate-50 dark:bg-[var(--gray-a2)] overflow-hidden overflow-y-auto"
                 px={"4"}
                 py={"4"}
                 direction={"column"}
@@ -84,8 +130,17 @@ const CartPage = () => {
                 ))}
               </Flex>
             )}
-            {cart.length > 0 && (
-              <Flex justify={"end"}>
+            {cart && cart.length > 0 && (
+              <Flex justify={"end"} gap={"2"}>
+                <Button
+                  color="blue"
+                  variant="soft"
+                  onClick={() => {
+                    router.push("/organisation/cart");
+                  }}
+                >
+                  <ArrowLeftIcon /> Back To Cart
+                </Button>
                 <Button
                   color="grass"
                   variant="soft"
@@ -93,11 +148,11 @@ const CartPage = () => {
                     router.push("/organisation/checkout");
                   }}
                 >
-                  Process To Checkout <ArrowRightIcon />
+                  Place Order <ArrowRightIcon />
                 </Button>
               </Flex>
             )}
-            {cart.length == 0 && (
+            {cart && cart.length == 0 && (
               <Flex className="h-full" direction={"column"} gap={"2"} justify={"start"} py={{ initial: "9", md: "0" }}>
                 <Heading align={"center"} size={{ initial: "3", md: "6" }}>
                   Add An Item To Cart.
@@ -120,4 +175,4 @@ const CartPage = () => {
   );
 };
 
-export default CartPage;
+export default CheckoutPage;
