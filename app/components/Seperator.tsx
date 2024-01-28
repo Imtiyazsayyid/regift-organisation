@@ -7,7 +7,7 @@ interface Props {
 const Seperator = ({ className }: Props) => {
   return (
     <Flex justify={"center"} className={"w-full " + className}>
-      <Flex className="border-b-[1px] w-full"></Flex>
+      <Flex className="border-b-[1px] dark:border-b-stone-800 w-full"></Flex>
     </Flex>
   );
 };

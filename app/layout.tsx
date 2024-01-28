@@ -7,15 +7,10 @@ import "../theme-config.css";
 
 export const metadata: Metadata = {
   title: "Regift Organisation",
-  description:
-    "The perfect place To give away unused items that can make some one else's life better",
+  description: "The perfect place To give away unused items that can make some one else's life better",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
@@ -35,9 +30,8 @@ export default function RootLayout({
         ></link>
       </head>
       <body>
-        <Theme accentColor="indigo">
-          <Toaster />
-          <main className={`h-screen bg-slate-100`}>{children}</main>
+        <Theme accentColor="crimson">
+          <main className={`h-screen`}>{children}</main>
         </Theme>
       </body>
     </html>

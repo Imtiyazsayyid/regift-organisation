@@ -28,6 +28,7 @@ const BrowsePage = () => {
   const [isLoading, setLoading] = useState(true);
 
   const getAllDonatedItems = async () => {
+    setLoading(true);
     const res = await OrganisationServices.getAllDonatedItems({
       searchText,
       categoryId: getEmptyOrValue(category),
@@ -76,7 +77,7 @@ const BrowsePage = () => {
 
       <Grid
         columns={{ sm: "1", md: "3", xl: "5" }}
-        className="h-full overflow-hidden overflow-y-auto bg-slate-50"
+        className="h-full overflow-hidden overflow-y-auto bg-slate-50 dark:bg-[var(--gray-a2)]"
         gap={"2"}
         p={{ initial: "5" }}
       >

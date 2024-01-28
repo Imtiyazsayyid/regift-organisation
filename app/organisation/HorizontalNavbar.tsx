@@ -1,5 +1,5 @@
 "use client";
-import { Avatar, DropdownMenu, Flex, Heading, Text } from "@radix-ui/themes";
+import { Avatar, Box, DropdownMenu, Flex, Heading, Switch, Text } from "@radix-ui/themes";
 import { usePathname, useRouter } from "next/navigation";
 
 import { FaRegBell } from "react-icons/fa";
@@ -7,7 +7,7 @@ import { FaCartShopping } from "react-icons/fa6";
 // import { TbSettings } from "react-icons/tb";
 import { IoMenu } from "react-icons/io5";
 import { FaBoxOpen } from "react-icons/fa";
-import { GearIcon, PersonIcon } from "@radix-ui/react-icons";
+import { GearIcon, GlobeIcon, MoonIcon, PersonIcon, SunIcon } from "@radix-ui/react-icons";
 import { IoLogOutOutline } from "react-icons/io5";
 
 import { AiFillHome } from "react-icons/ai";
@@ -18,11 +18,38 @@ import { motion } from "framer-motion";
 
 import * as OrganisationServices from "../Services/OrganisationServices";
 import { TokenService } from "../Services/StorageService";
-import Link from 'next/link';
+import { Organisation } from "../interfaces/OrganisationInterface";
 
-const HorizontalNavBar = () => {
+interface Props {
+  isDarkMode: boolean;
+  setDarkMode: (isDarkMode: boolean) => void;
+}
+
+const HorizontalNavBar = ({ isDarkMode, setDarkMode }: Props) => {
+  const [organisation, setOrganisation] = useState<Organisation>();
+  const [itemsInCart, setItemsInCart] = useState(true);
+
+  const getOrganisationDetails = async () => {
+    const res = await OrganisationServices.getOrganisationDetails();
+    if (!res.status) return;
+    setOrganisation(res.data.data);
+  };
+
+  const getCartDetails = async () => {
+    const res = await OrganisationServices.getAllCartItems();
+    if (!res.status) return;
+
+    setItemsInCart(res.data.data.length > 0 ? true : false);
+  };
+
   useEffect(() => {
-    OrganisationServices.getOrganisationDetails();
+    getCartDetails();
+    const intervalId = setInterval(getCartDetails, 5000);
+    return () => clearInterval(intervalId);
+  }, []);
+
+  useEffect(() => {
+    getOrganisationDetails();
   }, []);
 
   const ListItems = [
@@ -64,41 +91,67 @@ const HorizontalNavBar = () => {
 
   return (
     <Flex className="fixed w-full z-50" direction={"column"}>
-      <Flex className="min-h-20 h-20 max-h-20 w-full bg-white shadow-sm px-3 md:px-16 border" justify={"between"}>
-        <div
-          className="flex flex-col justify-center md:hidden cursor-piinter"
-          onClick={() => setDropdownActive(!isDropdownActive)}
-        >
-          <IoMenu className="text-4xl" />
-        </div>
-        <Flex gap={"6"}>
-          <Flex className="h-full w-full pl-10" align={"center"} justify={"end"} gap={"2"}>
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Avicii_-_Logo.png"
-              className="h-1/3 md:h-1/2 w-fit object-cover"
-            />
-            <Heading size={{ initial: "3", sm: "5" }}>Regift</Heading>
-          </Flex>
-          <div className="hidden md:flex items-center">
-            {ListItems.map((item) => (
-              <Flex
-                className={`py-2 px-5 rounded-lg cursor-pointer ${isCurrentPath(item.link) && "bg-slate-100"}`}
-                key={item.link}
-                onClick={() => router.push(item.link)}
-              >
-                <Text>{item.label}</Text>
-              </Flex>
-            ))}
+      <Flex
+        className="min-h-20 h-20 max-h-20 w-full shadow-sm px-3 md:px-16 border-b dark:border-b-[var(--gray-a2)] border-slate-50"
+        justify={"between"}
+      >
+        <Flex gap={"3"}>
+          <div
+            className="flex flex-col justify-center md:hidden cursor-piinter"
+            onClick={() => setDropdownActive(!isDropdownActive)}
+          >
+            <IoMenu className="text-4xl" />
           </div>
+          <Flex className="h-full w-full cursor-pointer" align={"center"} justify={"start"} gap={"5"}>
+            <Flex gap={"2"} align={"center"} onClick={() => router.push("/organisation")}>
+              <GlobeIcon className="h-8 w-8 md:h-10 md:w-10" />
+              <Heading size={{ initial: "3", sm: "5" }}>Regift</Heading>
+            </Flex>
+            <div className="hidden md:flex items-center">
+              {ListItems.map((item) => (
+                <Flex
+                  className={`py-2 px-5 rounded-lg cursor-pointer ${
+                    isCurrentPath(item.link) && "bg-slate-100 dark:bg-[var(--gray-a2)]"
+                  }`}
+                  key={item.link}
+                  onClick={() => router.push(item.link)}
+                >
+                  <Text>{item.label}</Text>
+                </Flex>
+              ))}
+            </div>
+          </Flex>
         </Flex>
+        <Flex gap={"6"}></Flex>
         <Flex align={"center"} gap={"4"}>
+          <Flex gap={"3"} mr={{ initial: "1", md: "5" }}>
+            {isDarkMode ? (
+              <MoonIcon color="gray" height={"20"} width={"20"} />
+            ) : (
+              <SunIcon color="gray" height={"20"} width={"20"} />
+            )}
+            <Switch checked={isDarkMode} onCheckedChange={(val) => setDarkMode(val)} />
+          </Flex>
+
           <FaRegBell className="text-2xl text-slate-400 cursor-pointer" />
-          <FaCartShopping className="text-2xl cursor-pointer font-bold" />
+          <Flex align={"end"} className="relative">
+            <FaCartShopping
+              className="text-2xl cursor-pointer font-bold"
+              onClick={() => router.push("/organisation/cart")}
+            />
+            {itemsInCart && (
+              <Flex className="w-3 h-3 bg-[var(--crimson-a11)] rounded-full relative right-2 bottom-4"></Flex>
+            )}
+          </Flex>
           <Flex>
             <DropdownMenu.Root>
               <DropdownMenu.Trigger>
                 <Flex>
-                  <Avatar fallback={"?"} radius="full" className="cursor-pointer" />
+                  <Avatar
+                    fallback={<span className="text-sm">{organisation?.acronym || "?"}</span>}
+                    radius="full"
+                    className="cursor-pointer"
+                  />
                 </Flex>
               </DropdownMenu.Trigger>
               <DropdownMenu.Content>
@@ -107,12 +160,10 @@ const HorizontalNavBar = () => {
                     <GearIcon /> Settings
                   </Flex>
                 </DropdownMenu.Item>
-                <DropdownMenu.Item>
-                  <Link href="/organisation/profile">
+                <DropdownMenu.Item onClick={() => {router.push("/organisation/profile")}}>
                     <Flex gap={"2"} align={"center"}>
                       <PersonIcon /> Profile
                     </Flex>
-                  </Link>
                 </DropdownMenu.Item>
                 <DropdownMenu.Item onClick={() => signOut()}>
                   <Flex gap={"2"} align={"center"}>
@@ -126,10 +177,10 @@ const HorizontalNavBar = () => {
       </Flex>
 
       <motion.div
-        className="md:hidden sm:block overflow-hidden shadow-sm border-b h-0"
+        className="md:hidden sm:block overflow-hidden shadow-sm border-b dark:border-b-[var(--gray-a2)] h-0"
         animate={isDropdownActive ? { height: "fit-content" } : { height: "0px" }}
       >
-        <Flex className="h-full w-full bg-white top-20" direction={"column"}>
+        <Flex className="h-full w-full top-20 bg-white dark:bg-[#111111] bg-s z-50" direction={"column"}>
           {ListItems.map((item) => (
             <Flex
               className="border-slate-100"
@@ -139,7 +190,13 @@ const HorizontalNavBar = () => {
                 setDropdownActive(false);
               }}
             >
-              <Flex gap={"3"} className={`px-5 py-4 w-full ${isCurrentPath(item.link) && "bg-blue-100 text-blue-700"}`}>
+              {isCurrentPath(item.link) && <div className="w-1 bg-[var(--crimson-a9)]"></div>}
+              <Flex
+                gap={"3"}
+                className={`px-5 py-4 w-full ${
+                  isCurrentPath(item.link) && "bg-[var(--crimson-a3)] text-[var(--crimson-a9)]"
+                }`}
+              >
                 {item.icon}
                 <Text>{item.label}</Text>
               </Flex>

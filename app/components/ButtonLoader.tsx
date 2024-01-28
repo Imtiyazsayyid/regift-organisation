@@ -5,7 +5,7 @@ import PuffLoader from "react-spinners/PuffLoader";
 const Loader = ({ isLoading }: { isLoading: boolean }) => {
   if (!isLoading) return null;
   return (
-    <Flex className="h-full w-full" justify={"center"} align={"center"}>
+    <Flex className="h-5 w-5" justify={"center"} align={"center"}>
       <PuffLoader color={"var(--crimson-a11)"} loading={isLoading} aria-label="Loading Spinner" data-testid="loader" />
     </Flex>
   );

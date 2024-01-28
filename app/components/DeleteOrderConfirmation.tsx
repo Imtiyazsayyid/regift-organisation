@@ -1,5 +1,5 @@
 import { TrashIcon } from "@radix-ui/react-icons";
-import { AlertDialog, Button, Flex } from "@radix-ui/themes";
+import { AlertDialog, Badge, Button, Flex } from "@radix-ui/themes";
 import React from "react";
 
 interface Props {
@@ -11,22 +11,22 @@ const DeleteConfirmation = ({ confirmDelete, removedItem }: Props) => {
   return (
     <AlertDialog.Root>
       <AlertDialog.Trigger>
-        <Button
-          color="crimson"
-          variant="soft"
+        <Badge
+          color="red"
+          className="w-fit h-fit cursor-pointer"
           radius="full"
+          variant="surface"
           onClick={(e) => {
             e.stopPropagation();
           }}
         >
-          <TrashIcon />
-        </Button>
+          Cancel Order
+        </Badge>
       </AlertDialog.Trigger>
       <AlertDialog.Content style={{ maxWidth: 450 }}>
-        <AlertDialog.Title>Confirm Delete.</AlertDialog.Title>
+        <AlertDialog.Title>Confirm Order Cancellation.</AlertDialog.Title>
         <AlertDialog.Description size="2">
-          Are you sure you want to remove {removedItem}? <br />
-          This action cannot be reversed.
+          Are you sure you want to cancel order for {removedItem}? <br />
         </AlertDialog.Description>
 
         <Flex gap="3" mt="8" justify="end">
@@ -36,7 +36,7 @@ const DeleteConfirmation = ({ confirmDelete, removedItem }: Props) => {
               justify={"center"}
               align={"center"}
             >
-              Cancel
+              No
             </Flex>
           </AlertDialog.Cancel>
           <AlertDialog.Action>
@@ -46,7 +46,7 @@ const DeleteConfirmation = ({ confirmDelete, removedItem }: Props) => {
               justify={"center"}
               align={"center"}
             >
-              Delete
+              Yes
             </Flex>
           </AlertDialog.Action>
         </Flex>

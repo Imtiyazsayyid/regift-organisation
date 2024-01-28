@@ -1,6 +1,6 @@
 "use client";
 
-import { EnvelopeClosedIcon, LockClosedIcon } from "@radix-ui/react-icons";
+import { ArrowRightIcon, EnvelopeClosedIcon, GlobeIcon, LockClosedIcon } from "@radix-ui/react-icons";
 import { Button, Flex, Heading, Text, TextField } from "@radix-ui/themes";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -48,9 +48,7 @@ const LoginPage = () => {
     if (res.data.status) {
       const refreshToken = res.data.data;
 
-      const accessTokenResponse = await OrganisationServices.getAccessToken(
-        refreshToken
-      );
+      const accessTokenResponse = await OrganisationServices.getAccessToken(refreshToken);
 
       console.log({ accessTokenResponse });
 
@@ -70,76 +68,87 @@ const LoginPage = () => {
   };
 
   return (
-    <Flex className="h-full w-full">
-      <Flex className="w-2/3 h-full">
-        <img
-          src="https://images.pexels.com/photos/4252167/pexels-photo-4252167.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-          className="object-cover"
-        />
-      </Flex>
+    <Flex className="h-full w-full bg-[#111111] lg:bg-white">
+      <div className="hidden lg:flex w-2/5 h-full bg-[#111111] items-center justify-center">
+        <GlobeIcon className="h-1/2 w-1/2 text-white" />
+      </div>
       <Flex
         direction={"column"}
-        gap={"1"}
+        p={"5"}
         justify={"center"}
         align={"center"}
-        className="h-full w-1/3 bg-white"
+        className="h-5/6 lg:h-full w-full lg:w-3/5"
       >
-        <Heading size={"8"} mb={"4"} align={"center"}>
-          Welcome To Regift <span className="text-blue-700">Organisation</span>.
-        </Heading>
+        <div className="h-1/3 lg:hidden mb-10 w-full text-white py-10">
+          <GlobeIcon className="h-full w-full" />
+        </div>
+        <Flex
+          gap={"1"}
+          direction={"column"}
+          className="w-full px-10 py-10 bg-white rounded-xl"
+          justify={"center"}
+          align={"center"}
+        >
+          <Heading size={{ initial: "3", md: "8" }} mb={"4"} align={"center"}>
+            Welcome To Regift <Text color="crimson">Organisation</Text>.
+          </Heading>
 
-        <Text className="text-xs text-red-400" my={"2"}>
-          {errors.invalidCredentials}
-        </Text>
+          <Text className="text-xs" my={"2"} color="crimson">
+            {errors.invalidCredentials}
+          </Text>
 
-        <Flex direction={"column"} gap={"1"}>
-          {errors.email && (
-            <Text className="text-xs text-red-400">{errors.email}</Text>
-          )}
-          <TextField.Root className="w-96">
-            <TextField.Slot>
-              <EnvelopeClosedIcon height="16" width="16" />
-            </TextField.Slot>
-            <TextField.Input
-              placeholder="Email"
-              value={userDetails.email}
-              onChange={(e) =>
-                setUserDetails({
-                  ...userDetails,
-                  email: e.target.value,
-                })
-              }
-            />
-          </TextField.Root>
+          <Flex direction={"column"} gap={"1"} className="w-full lg:w-2/3">
+            {errors.email && (
+              <Text className="text-xs" color="crimson">
+                {errors.email}
+              </Text>
+            )}
+            <TextField.Root className="w-full" size={"3"}>
+              <TextField.Slot>
+                <EnvelopeClosedIcon height="20" width="20" />
+              </TextField.Slot>
+              <TextField.Input
+                placeholder="Email"
+                value={userDetails.email}
+                onChange={(e) =>
+                  setUserDetails({
+                    ...userDetails,
+                    email: e.target.value,
+                  })
+                }
+              />
+            </TextField.Root>
+          </Flex>
+
+          <Flex direction={"column"} gap={"1"} mb={"4"} className="w-full lg:w-2/3">
+            {errors.password && (
+              <Text className="text-xs" color="crimson" mt={"2"}>
+                {errors.password}
+              </Text>
+            )}
+            <TextField.Root className="w-full" size={"3"}>
+              <TextField.Slot>
+                <LockClosedIcon height="20" width="20" />
+              </TextField.Slot>
+              <TextField.Input
+                placeholder="Password"
+                type="password"
+                value={userDetails.password}
+                onChange={(e) =>
+                  setUserDetails({
+                    ...userDetails,
+                    password: e.target.value,
+                  })
+                }
+              />
+            </TextField.Root>
+          </Flex>
+          <Flex className="w-1/2" justify={"end"}>
+            <Button size={"3"} onClick={handleSubmit} className="w-full">
+              Login
+            </Button>
+          </Flex>
         </Flex>
-
-        <Flex direction={"column"} gap={"1"} mb={"4"}>
-          {errors.password && (
-            <Text className="text-xs text-red-400" mt={"2"}>
-              {errors.password}
-            </Text>
-          )}
-          <TextField.Root className="w-96">
-            <TextField.Slot>
-              <LockClosedIcon height="16" width="16" />
-            </TextField.Slot>
-            <TextField.Input
-              placeholder="Password"
-              type="password"
-              value={userDetails.password}
-              onChange={(e) =>
-                setUserDetails({
-                  ...userDetails,
-                  password: e.target.value,
-                })
-              }
-            />
-          </TextField.Root>
-        </Flex>
-
-        <Button variant="surface" className="w-96" onClick={handleSubmit}>
-          Login
-        </Button>
       </Flex>
     </Flex>
   );
