@@ -12,6 +12,7 @@ import Loader from "@/app/components/Loader";
 import { ArrowLeftIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/navigation";
 import { CartItem } from "@/app/interfaces/CartItemInterface";
+import ButtonLoader from "../../../components/ButtonLoader";
 
 interface Props {
   params: {
@@ -24,6 +25,7 @@ const ProductDetailPage = ({ params }: Props) => {
   const [isLoading, setLoading] = useState(true);
   // const [isInCart, setIsInCart] = useState(false);
   const [currentCartItem, setCartItem] = useState<CartItem>();
+  const [buttonLoading, setButtonLoading] = useState(false);
 
   const router = useRouter();
 
@@ -49,8 +51,14 @@ const ProductDetailPage = ({ params }: Props) => {
   };
 
   const removeFromCart = async () => {
+    setButtonLoading(true);
     if (currentCartItem) {
+      const loadingToastId = toast.loading("Removing item from cart...");
+
       const res = await OrganisationServices.deleteCartItem(currentCartItem?.id);
+
+      toast.dismiss(loadingToastId);
+
       if (!res.status) {
         toast.error("Item could not be removed from cart.");
         return;
@@ -58,15 +66,20 @@ const ProductDetailPage = ({ params }: Props) => {
       setCartItem(undefined);
       toast.success("Item Removed From Cart.");
     }
+    setButtonLoading(false);
   };
 
   const addProductToCart = async () => {
+    setButtonLoading(true);
+    const loadingToastId = toast.loading("Adding item from cart...");
     const res = await OrganisationServices.saveCartItem({ donatedItemId: product?.id });
+    toast.dismiss(loadingToastId);
     if (!res.status) {
       toast.error("Item was not added to Cart.");
     }
     checkProductInCart();
     toast.success("Added to Cart.");
+    setButtonLoading(false);
   };
 
   useEffect(() => {
@@ -121,6 +134,7 @@ const ProductDetailPage = ({ params }: Props) => {
           <Flex justify={"center"} mt={"9"}>
             <Button
               className="w-2/3"
+              disabled={isLoading}
               onClick={() => {
                 currentCartItem ? removeFromCart() : addProductToCart();
               }}
