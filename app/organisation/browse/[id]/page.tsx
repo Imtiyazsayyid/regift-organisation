@@ -131,10 +131,11 @@ const ProductDetailPage = ({ params }: Props) => {
               &quot;{product?.description}&quot;
             </Text>
           )}
+
           <Flex justify={"center"} mt={"9"}>
             <Button
               className="w-2/3"
-              disabled={isLoading}
+              disabled={buttonLoading}
               onClick={() => {
                 currentCartItem ? removeFromCart() : addProductToCart();
               }}
