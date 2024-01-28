@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Flex, Heading } from "@radix-ui/themes";
-import Form from "../Form";
+import Form from "./Form";
 import Seperator from "@/app/components/Seperator";
 import { Organisation } from "../../../app/interfaces/OrganisationInterface";
 import * as OrganisationServices from "../../Services/OrganisationServices";
@@ -34,6 +34,7 @@ const ProfilePage = () => {
         name={organisation?.name}
         acronym={organisation?.acronym || ""}
         email={organisation?.email}
+        password={organisation?.password}
         websiteUrl={organisation?.websiteUrl || ""}
         logo={organisation?.logo || ""}
         address={organisation?.address || ""}

@@ -2,8 +2,8 @@
 import { Avatar, Button, Flex, Select, Text, TextArea, TextField, Grid } from "@radix-ui/themes";
 import React, { useEffect, useState } from "react";
 import { CldUploadWidget, CldImage } from "next-cloudinary";
-import { organisationSchema } from "../validationSchemas";
-import * as AdminServices from "../Services/OrganisationServices";
+import { organisationSchema } from "../../validationSchemas";
+import * as AdminServices from "../../Services/OrganisationServices";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
@@ -18,11 +18,12 @@ interface Props {
   acronym?: string;
   email?: string;
   websiteUrl?: string;
+  password?: string;
   logo?: string;
   address?: string;
 }
 
-const OrganisationForm = ({ id, name, acronym, email, websiteUrl, logo, address }: Props) => {
+const OrganisationForm = ({ id, name, acronym, email, websiteUrl, logo, address, password }: Props) => {
   const router = useRouter();
 
   const [organisationDetails, setOrganisationDetails] = useState({
@@ -42,12 +43,12 @@ const OrganisationForm = ({ id, name, acronym, email, websiteUrl, logo, address 
       name: name || "",
       acronym: acronym || "",
       email: email || "",
-      password: "",
+      password: password || "",
       websiteUrl: websiteUrl || "",
       logo: logo || "",
       address: address || "",
     });
-  }, [id, name, acronym, email, websiteUrl, logo, address]);
+  }, [id, name, acronym, email, websiteUrl, logo, address, password]);
 
   const [errors, setErrors] = useState({
     name: "",
@@ -217,6 +218,7 @@ const OrganisationForm = ({ id, name, acronym, email, websiteUrl, logo, address 
           <TextField.Root>
             <TextField.Input
               value={organisationDetails.password}
+              type="password"
               onChange={(e) =>
                 setOrganisationDetails({
                   ...organisationDetails,
