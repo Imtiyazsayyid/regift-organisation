@@ -11,6 +11,7 @@ import Separator from "../../components/Seperator";
 import Loader from "@/app/components/Loader";
 import { useRouter } from "next/navigation";
 import { Organisation } from "@/app/interfaces/OrganisationInterface";
+import OrderConfirmation from "@/app/components/OrderConfirmation";
 
 const CheckoutPage = () => {
   const [cart, setCart] = useState<CartItem[]>();
@@ -49,6 +50,15 @@ const CheckoutPage = () => {
     }
     getAllCartItems();
     toast.success("Item Removed From Cart.");
+  };
+
+  const placeOrder = async () => {
+    const res = await OrganisationServices.saveOrder();
+    if (!res.status) {
+      toast.error("Order Not Placed");
+      return;
+    }
+    toast.success("Order Placed.");
   };
 
   useEffect(() => {
@@ -124,7 +134,7 @@ const CheckoutPage = () => {
                       </div>
                     </Flex>
                     <Flex
-                      className="md:mr-5 rounded-xl border border-[var(--gray-a4)] bg-white dark:bg-[var(--gray-a2)] px-4 shadow-md"
+                      className="rounded-xl border border-[var(--gray-a4)] bg-white dark:bg-[var(--gray-a2)] px-4 shadow-md"
                       justify={"center"}
                       align={"center"}
                     >
@@ -150,15 +160,7 @@ const CheckoutPage = () => {
                 >
                   <ArrowLeftIcon /> Back To Cart
                 </Button>
-                <Button
-                  color="grass"
-                  variant="soft"
-                  onClick={() => {
-                    router.push("/organisation/checkout");
-                  }}
-                >
-                  Place Order <ArrowRightIcon />
-                </Button>
+                <OrderConfirmation confirmOrder={placeOrder} />
               </Flex>
             )}
             {cart && cart.length == 0 && (

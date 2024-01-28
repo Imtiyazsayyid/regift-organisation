@@ -31,7 +31,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <Theme accentColor="crimson">
-          <Toaster />
           <main className={`h-screen`}>{children}</main>
         </Theme>
       </body>

@@ -49,3 +49,17 @@ export async function getSingleCartItem(id) {
 export async function deleteCartItem(id) {
   return await Api().delete(`/cart-item/${id}`);
 }
+
+// Order
+
+export async function getAllOrders(params) {
+  return await Api().get("/orders", { params });
+}
+
+export async function saveOrder(payload) {
+  return await Api().post("/orders", payload);
+}
+
+export async function deleteOrder(id) {
+  return await Api().delete(`/order/${id}`);
+}

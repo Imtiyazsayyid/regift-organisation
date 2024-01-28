@@ -9,10 +9,11 @@ import toast from "react-hot-toast";
 
 import ConditionBadge from "../../../components/ConditionBadge";
 import Loader from "@/app/components/Loader";
-import { ArrowLeftIcon } from "@radix-ui/react-icons";
+import { ArrowLeftIcon, EyeOpenIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/navigation";
 import { CartItem } from "@/app/interfaces/CartItemInterface";
 import ButtonLoader from "../../../components/ButtonLoader";
+import { FaRegEye } from "react-icons/fa";
 
 interface Props {
   params: {
@@ -79,6 +80,16 @@ const ProductDetailPage = ({ params }: Props) => {
     }
     checkProductInCart();
     toast.success("Added to Cart.");
+    toast.custom(
+      <Flex
+        gap="2"
+        className="bg-white text-black shadow-md px-3 py-3 rounded-md cursor-pointer"
+        align={"center"}
+        onClick={() => router.push("/organisation/cart")}
+      >
+        <FaRegEye className="h-6 w-6" color="pink" /> Click To View Cart
+      </Flex>
+    );
     setButtonLoading(false);
   };
 

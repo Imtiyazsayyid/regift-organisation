@@ -79,7 +79,7 @@ const CartPage = () => {
                       </div>
                     </Flex>
                     <Flex
-                      className="md:mr-5 rounded-xl border border-[var(--gray-a4)] bg-white dark:bg-[var(--gray-a2)] px-4 shadow-md"
+                      className="rounded-xl border border-[var(--gray-a4)] bg-white dark:bg-[var(--gray-a2)] px-4 shadow-md"
                       justify={"center"}
                       align={"center"}
                     >

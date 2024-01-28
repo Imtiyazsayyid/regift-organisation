@@ -3,6 +3,7 @@
 import { Flex, Theme } from "@radix-ui/themes";
 import HorizontalNavbar from "./HorizontalNavbar";
 import { useEffect, useState } from "react";
+import { Toaster } from "react-hot-toast";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState("");
@@ -26,6 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           isDarkMode={theme === "dark" ? true : false}
           setDarkMode={(isDarkMode) => setTheme(isDarkMode ? "dark" : "light")}
         />
+        <Toaster />
         <main className="h-full w-full pt-20">{children}</main>
       </Flex>
     </Theme>
