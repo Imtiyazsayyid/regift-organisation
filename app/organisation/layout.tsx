@@ -8,8 +8,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const [theme, setTheme] = useState("");
 
   useEffect(() => {
-    // console.log(localStorage.getItem("theme"));
-
     if (theme == "") {
       let localStorageTheme = localStorage.getItem("theme");
       if (localStorageTheme) {

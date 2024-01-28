@@ -70,9 +70,9 @@ const CheckoutPage = () => {
           Easy and hassle-free checkout: Complete your order in seconds, no payment required! Simply review your
           selections, confirm your details, and enjoy your free order.
         </Text>
-        <Separator className="my-10 md:mt-20" />
-        <Flex className="pb-10" gap={"4"}>
-          <Flex direction={"column"} className="w-2/3 md:w-1/3">
+        <Separator className="my-10" />
+        <Flex className="mb-10" gap={"4"}>
+          <Flex direction={"column"} className="w-1/2 md:w-1/3">
             <Text>Delivery Address</Text>
             <Flex className="text-sm text-slate-500" direction={"column"}>
               {organisation?.address.split("\n").map((line, index) => (
@@ -82,12 +82,11 @@ const CheckoutPage = () => {
               ))}
             </Flex>
           </Flex>
-          <Flex className="w-1/3 md:w-2/3 p-5" align={"end"} direction={"column"}>
+          <Flex className="w-1/2 md:w-2/3" align={"end"} direction={"column"} justify={"center"}>
             <Flex direction={"column"} align={"center"} gap={"2"}>
-              <Button className="w-full" variant="soft" color="violet">
-                Profile <ArrowRightIcon />
+              <Button className="w-full" variant="ghost" color="violet">
+                Change Address <ArrowRightIcon />
               </Button>
-              <Text className="text-xs text-center">Need To Change Address?</Text>
             </Flex>
           </Flex>
         </Flex>
@@ -107,22 +106,33 @@ const CheckoutPage = () => {
                 gap={"2"}
               >
                 {cart.map((cartItem) => (
-                  <Flex
-                    className="h-20 w-full rounded-xl border border-[var(--gray-a4)] p-3 shadow-md bg-white dark:bg-[var(--gray-a2)]"
-                    align={"center"}
-                    gap={"3"}
-                    key={cartItem.id}
-                  >
-                    <Avatar fallback={"?"} size={"4"} src={cartItem.donatedItem.image} />
-                    <Flex className="w-full md:w-1/2 h-full" direction={"column"} justify={"center"}>
-                      <Heading size={{ initial: "2", md: "4" }}>{cartItem.donatedItem.title}</Heading>
+                  <Flex gap={"2"}>
+                    <Flex
+                      className="h-20 w-full rounded-xl border border-[var(--gray-a4)] p-3 shadow-md bg-white dark:bg-[var(--gray-a2)] cursor-pointer"
+                      align={"center"}
+                      gap={"3"}
+                      key={cartItem.id}
+                      onClick={(e) => {
+                        router.push("/organisation/browse/" + cartItem.donatedItemId);
+                      }}
+                    >
+                      <Avatar fallback={"?"} size={"4"} src={cartItem.donatedItem.image} />
+                      <Flex className="w-full md:w-1/2 h-full" direction={"column"} justify={"center"}>
+                        <Heading size={{ initial: "2", md: "4" }}>{cartItem.donatedItem.title}</Heading>
+                      </Flex>
+                      <div className="w-1/2 hidden md:flex">
+                        <Text className="text-xs text-slate-400">{cartItem.donatedItem.category.name}</Text>
+                      </div>
                     </Flex>
-                    <div className="w-1/2 hidden md:flex">
-                      <Text className="text-xs text-slate-400">{cartItem.donatedItem.category.name}</Text>
-                    </div>
-                    <Flex className="md:mr-5">
+                    <Flex
+                      className="md:mr-5 rounded-xl border border-[var(--gray-a4)] bg-white dark:bg-[var(--gray-a2)] px-4 shadow-md"
+                      justify={"center"}
+                      align={"center"}
+                    >
                       <DeleteConfirmation
-                        confirmDelete={() => deleteCartItem(cartItem.id)}
+                        confirmDelete={() => {
+                          deleteCartItem(cartItem.id);
+                        }}
                         removedItem={`"${cartItem.donatedItem.title}"` + " from cart"}
                       />
                     </Flex>

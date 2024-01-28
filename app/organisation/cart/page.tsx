@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRightIcon, TrashIcon } from "@radix-ui/react-icons";
+import { ArrowLeftIcon, ArrowRightIcon, TrashIcon } from "@radix-ui/react-icons";
 import { Avatar, Button, Container, Flex, Heading, Text } from "@radix-ui/themes";
 import React, { useEffect, useState } from "react";
 import * as OrganisationServices from "../../Services/OrganisationServices";
@@ -61,22 +61,33 @@ const CartPage = () => {
                 gap={"2"}
               >
                 {cart.map((cartItem) => (
-                  <Flex
-                    className="h-20 w-full rounded-xl border border-[var(--gray-a4)] p-3 shadow-md bg-white dark:bg-[var(--gray-a2)]"
-                    align={"center"}
-                    gap={"3"}
-                    key={cartItem.id}
-                  >
-                    <Avatar fallback={"?"} size={"4"} src={cartItem.donatedItem.image} />
-                    <Flex className="w-full md:w-1/2 h-full" direction={"column"} justify={"center"}>
-                      <Heading size={{ initial: "2", md: "4" }}>{cartItem.donatedItem.title}</Heading>
+                  <Flex gap={"2"}>
+                    <Flex
+                      className="h-20 w-full rounded-xl border border-[var(--gray-a4)] p-3 shadow-md bg-white dark:bg-[var(--gray-a2)] cursor-pointer"
+                      align={"center"}
+                      gap={"3"}
+                      key={cartItem.id}
+                      onClick={(e) => {
+                        router.push("/organisation/browse/" + cartItem.donatedItemId);
+                      }}
+                    >
+                      <Avatar fallback={"?"} size={"4"} src={cartItem.donatedItem.image} />
+                      <Flex className="w-full md:w-1/2 h-full" direction={"column"} justify={"center"}>
+                        <Heading size={{ initial: "2", md: "4" }}>{cartItem.donatedItem.title}</Heading>
+                      </Flex>
+                      <div className="w-1/2 hidden md:flex">
+                        <Text className="text-xs text-slate-400">{cartItem.donatedItem.category.name}</Text>
+                      </div>
                     </Flex>
-                    <div className="w-1/2 hidden md:flex">
-                      <Text className="text-xs text-slate-400">{cartItem.donatedItem.category.name}</Text>
-                    </div>
-                    <Flex className="md:mr-5">
+                    <Flex
+                      className="md:mr-5 rounded-xl border border-[var(--gray-a4)] bg-white dark:bg-[var(--gray-a2)] px-4 shadow-md"
+                      justify={"center"}
+                      align={"center"}
+                    >
                       <DeleteConfirmation
-                        confirmDelete={() => deleteCartItem(cartItem.id)}
+                        confirmDelete={() => {
+                          deleteCartItem(cartItem.id);
+                        }}
                         removedItem={`"${cartItem.donatedItem.title}"` + " from cart"}
                       />
                     </Flex>
@@ -85,7 +96,16 @@ const CartPage = () => {
               </Flex>
             )}
             {cart.length > 0 && (
-              <Flex justify={"end"}>
+              <Flex justify={"end"} gap={"2"}>
+                <Button
+                  color="blue"
+                  variant="soft"
+                  onClick={() => {
+                    router.push("/organisation/browse");
+                  }}
+                >
+                  <ArrowLeftIcon /> Browse For More
+                </Button>
                 <Button
                   color="grass"
                   variant="soft"
@@ -93,7 +113,7 @@ const CartPage = () => {
                     router.push("/organisation/checkout");
                   }}
                 >
-                  Process To Checkout <ArrowRightIcon />
+                  Proceed To Checkout <ArrowRightIcon />
                 </Button>
               </Flex>
             )}

@@ -11,7 +11,14 @@ const DeleteConfirmation = ({ confirmDelete, removedItem }: Props) => {
   return (
     <AlertDialog.Root>
       <AlertDialog.Trigger>
-        <Button color="crimson" variant="soft" radius="full">
+        <Button
+          color="crimson"
+          variant="soft"
+          radius="full"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
           <TrashIcon />
         </Button>
       </AlertDialog.Trigger>
@@ -34,10 +41,10 @@ const DeleteConfirmation = ({ confirmDelete, removedItem }: Props) => {
           </AlertDialog.Cancel>
           <AlertDialog.Action>
             <Flex
+              onClick={confirmDelete}
               className="py-2 px-3 rounded-md text-md bg-[var(--red-a6)] cursor-pointer"
               justify={"center"}
               align={"center"}
-              onClick={confirmDelete}
             >
               Delete
             </Flex>
