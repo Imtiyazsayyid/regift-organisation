@@ -106,12 +106,11 @@ const CheckoutPage = () => {
                 gap={"2"}
               >
                 {cart.map((cartItem) => (
-                  <Flex gap={"2"}>
+                  <Flex gap={"2"} key={cartItem.id}>
                     <Flex
                       className="h-20 w-full rounded-xl border border-[var(--gray-a4)] p-3 shadow-md bg-white dark:bg-[var(--gray-a2)] cursor-pointer"
                       align={"center"}
                       gap={"3"}
-                      key={cartItem.id}
                       onClick={(e) => {
                         router.push("/organisation/browse/" + cartItem.donatedItemId);
                       }}
