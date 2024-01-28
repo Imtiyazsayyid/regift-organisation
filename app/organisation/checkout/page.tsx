@@ -87,25 +87,27 @@ const CheckoutPage = () => {
 
         {!isLoading && (
           <>
-            <Flex className="mb-10" gap={"4"}>
-              <Flex direction={"column"} className="w-1/2 md:w-1/3">
-                <Text>Delivery Address</Text>
-                <Flex className="text-sm text-slate-500" direction={"column"}>
-                  {organisation?.address.split("\n").map((line, index) => (
-                    <Text key={index} className="text-sm text-slate-500">
-                      {line}
-                    </Text>
-                  ))}
+            {cart && cart.length > 0 && (
+              <Flex className="mb-10" gap={"4"}>
+                <Flex direction={"column"} className="w-1/2 md:w-1/3">
+                  <Text>Delivery Address</Text>
+                  <Flex className="text-sm text-slate-500" direction={"column"}>
+                    {organisation?.address.split("\n").map((line, index) => (
+                      <Text key={index} className="text-sm text-slate-500">
+                        {line}
+                      </Text>
+                    ))}
+                  </Flex>
+                </Flex>
+                <Flex className="w-1/2 md:w-2/3" align={"end"} direction={"column"} justify={"center"}>
+                  <Flex direction={"column"} align={"center"} gap={"2"}>
+                    <Button className="w-full" variant="ghost" color="violet">
+                      Change Address <ArrowRightIcon />
+                    </Button>
+                  </Flex>
                 </Flex>
               </Flex>
-              <Flex className="w-1/2 md:w-2/3" align={"end"} direction={"column"} justify={"center"}>
-                <Flex direction={"column"} align={"center"} gap={"2"}>
-                  <Button className="w-full" variant="ghost" color="violet">
-                    Change Address <ArrowRightIcon />
-                  </Button>
-                </Flex>
-              </Flex>
-            </Flex>
+            )}
             {cart && cart.length > 0 && (
               <Text className="text-sm text-slate-400">
                 Total Items: <Text className="text-lg font-bold text-black dark:text-slate-300">{cart.length}</Text>{" "}
