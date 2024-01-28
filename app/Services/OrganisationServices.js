@@ -31,3 +31,9 @@ export async function getSingleDonatedItem(id) {
 export async function getAllCategories(params) {
   return await Api().get("/categories", { params });
 }
+
+// Oganisations
+
+export async function saveOrganisation(payload) {
+  return await Api().post("/organisations", payload);
+}

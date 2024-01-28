@@ -18,6 +18,7 @@ import { motion } from "framer-motion";
 
 import * as OrganisationServices from "../Services/OrganisationServices";
 import { TokenService } from "../Services/StorageService";
+import Link from 'next/link';
 
 const HorizontalNavBar = () => {
   useEffect(() => {
@@ -107,9 +108,11 @@ const HorizontalNavBar = () => {
                   </Flex>
                 </DropdownMenu.Item>
                 <DropdownMenu.Item>
-                  <Flex gap={"2"} align={"center"}>
-                    <PersonIcon /> Profile
-                  </Flex>
+                  <Link href="/organisation/profile">
+                    <Flex gap={"2"} align={"center"}>
+                      <PersonIcon /> Profile
+                    </Flex>
+                  </Link>
                 </DropdownMenu.Item>
                 <DropdownMenu.Item onClick={() => signOut()}>
                   <Flex gap={"2"} align={"center"}>
