@@ -45,12 +45,14 @@ const OrderPage = () => {
   };
 
   const cancelOrder = async (id: number) => {
+    const cancelOrderToast = toast.loading("Cancelling Order");
     const res = await OrganisationServices.deleteOrder(id);
     if (!res.status) {
       toast.error("Order Could Not Be Cancelled");
       return;
     }
 
+    toast.dismiss(cancelOrderToast);
     toast.success("Order Cancelled.");
     getAllOrders();
   };
@@ -100,7 +102,7 @@ const OrderPage = () => {
         )}
         {!isLoading && orders && orders?.length == 0 && (
           <Flex className="col-span-full" justify={"center"} p={"9"}>
-            <Text>Sorry, No Items Found.</Text>
+            <Text>No Orders Yet.</Text>
           </Flex>
         )}
         {!isLoading && orders?.map((order) => <OrderCard key={order.id} order={order} cancelOrder={cancelOrder} />)}

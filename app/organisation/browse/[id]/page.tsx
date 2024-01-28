@@ -79,7 +79,7 @@ const ProductDetailPage = ({ params }: Props) => {
       toast.error("Item was not added to Cart.");
     }
     checkProductInCart();
-    toast.success("Added to Cart.");
+
     toast.custom(
       <Flex
         gap="2"
@@ -87,7 +87,8 @@ const ProductDetailPage = ({ params }: Props) => {
         align={"center"}
         onClick={() => router.push("/organisation/cart")}
       >
-        <FaRegEye className="h-6 w-6" color="crimson" /> Click To View Cart
+        <FaRegEye className="h-6 w-6" color="crimson" />
+        Added to Cart. Tap To View.
       </Flex>
     );
     setButtonLoading(false);

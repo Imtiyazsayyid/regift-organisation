@@ -95,10 +95,10 @@ const CartPage = () => {
               </Flex>
             )}
             {cart.length > 0 && (
-              <Flex justify={"end"} gap={"2"}>
+              <Flex justify={"between"} mt={"3"}>
                 <Button
                   color="blue"
-                  variant="soft"
+                  variant="ghost"
                   onClick={() => {
                     router.push("/organisation/browse");
                   }}
@@ -107,7 +107,7 @@ const CartPage = () => {
                 </Button>
                 <Button
                   color="grass"
-                  variant="soft"
+                  variant="ghost"
                   onClick={() => {
                     router.push("/organisation/checkout");
                   }}

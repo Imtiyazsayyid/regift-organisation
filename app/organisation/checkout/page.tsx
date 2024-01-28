@@ -53,11 +53,13 @@ const CheckoutPage = () => {
   };
 
   const placeOrder = async () => {
+    const placeOrderToast = toast.loading("Placing Order...");
     const res = await OrganisationServices.saveOrder();
     if (!res.status) {
       toast.error("Order Not Placed");
       return;
     }
+    toast.dismiss(placeOrderToast);
     toast.success("Order Placed.");
     router.push("/organisation/orders");
   };
@@ -82,27 +84,28 @@ const CheckoutPage = () => {
           selections, confirm your details, and enjoy your free order.
         </Text>
         <Separator className="my-10" />
-        <Flex className="mb-10" gap={"4"}>
-          <Flex direction={"column"} className="w-1/2 md:w-1/3">
-            <Text>Delivery Address</Text>
-            <Flex className="text-sm text-slate-500" direction={"column"}>
-              {organisation?.address.split("\n").map((line, index) => (
-                <Text key={index} className="text-sm text-slate-500">
-                  {line}
-                </Text>
-              ))}
-            </Flex>
-          </Flex>
-          <Flex className="w-1/2 md:w-2/3" align={"end"} direction={"column"} justify={"center"}>
-            <Flex direction={"column"} align={"center"} gap={"2"}>
-              <Button className="w-full" variant="ghost" color="violet">
-                Change Address <ArrowRightIcon />
-              </Button>
-            </Flex>
-          </Flex>
-        </Flex>
+
         {!isLoading && (
           <>
+            <Flex className="mb-10" gap={"4"}>
+              <Flex direction={"column"} className="w-1/2 md:w-1/3">
+                <Text>Delivery Address</Text>
+                <Flex className="text-sm text-slate-500" direction={"column"}>
+                  {organisation?.address.split("\n").map((line, index) => (
+                    <Text key={index} className="text-sm text-slate-500">
+                      {line}
+                    </Text>
+                  ))}
+                </Flex>
+              </Flex>
+              <Flex className="w-1/2 md:w-2/3" align={"end"} direction={"column"} justify={"center"}>
+                <Flex direction={"column"} align={"center"} gap={"2"}>
+                  <Button className="w-full" variant="ghost" color="violet">
+                    Change Address <ArrowRightIcon />
+                  </Button>
+                </Flex>
+              </Flex>
+            </Flex>
             {cart && cart.length > 0 && (
               <Text className="text-sm text-slate-400">
                 Total Items: <Text className="text-lg font-bold text-black dark:text-slate-300">{cart.length}</Text>{" "}
@@ -151,10 +154,10 @@ const CheckoutPage = () => {
               </Flex>
             )}
             {cart && cart.length > 0 && (
-              <Flex justify={"end"} gap={"2"}>
+              <Flex justify={"between"} mt={"3"}>
                 <Button
                   color="blue"
-                  variant="soft"
+                  variant="ghost"
                   onClick={() => {
                     router.push("/organisation/cart");
                   }}

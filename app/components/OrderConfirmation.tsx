@@ -12,7 +12,7 @@ const DeleteConfirmation = ({ confirmOrder }: Props) => {
       <AlertDialog.Trigger>
         <Button
           color="grass"
-          variant="soft"
+          variant="ghost"
           onClick={(e) => {
             e.stopPropagation();
           }}
