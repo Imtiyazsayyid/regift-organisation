@@ -22,7 +22,7 @@ interface Props {
   address?: string;
 }
 
-const OrganisationForm = ({ id, name, acronym, email, password, websiteUrl, logo, address }: Props) => {
+const OrganisationForm = ({ id, name, acronym, email, websiteUrl, logo, address }: Props) => {
   const router = useRouter();
 
   const [organisationDetails, setOrganisationDetails] = useState({
@@ -42,12 +42,12 @@ const OrganisationForm = ({ id, name, acronym, email, password, websiteUrl, logo
       name: name || "",
       acronym: acronym || "",
       email: email || "",
-      password: password || "",
+      password: "",
       websiteUrl: websiteUrl || "",
       logo: logo || "",
       address: address || "",
     });
-  }, [id, name, acronym, email, password, websiteUrl, logo, address]);
+  }, [id, name, acronym, email, websiteUrl, logo, address]);
 
   const [errors, setErrors] = useState({
     name: "",
