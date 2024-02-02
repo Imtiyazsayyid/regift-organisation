@@ -101,7 +101,7 @@ const CheckoutPage = () => {
                 </Flex>
                 <Flex className="w-1/2 md:w-2/3" align={"end"} direction={"column"} justify={"center"}>
                   <Flex direction={"column"} align={"center"} gap={"2"}>
-                    <Button className="w-full" variant="ghost" color="violet">
+                    <Button className="w-full" variant="ghost" color="violet" onClick={() => router.push('/organisation/profile')}>
                       Change Address <ArrowRightIcon />
                     </Button>
                   </Flex>

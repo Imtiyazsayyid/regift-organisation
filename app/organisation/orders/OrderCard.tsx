@@ -24,14 +24,21 @@ const ProductCard = ({ order, cancelOrder }: Props) => {
       className="h-[450px] w-full overflow-hidden shadow-md border dark:border-none bg-white dark:bg-[var(--gray-a2)] rounded-md"
       direction={"column"}
     >
-      <Flex className="h-1/3 w-full">
-        <img src={order.donatedItem.image} className="w-full h-full object-cover" />
+      <Flex className="h-1/5 w-full" gap={"5"} px={"6"} pt={"4"} align={"center"}>
+        <img src={order.donatedItem.image} className="w-16 h-16 object-cover rounded-lg border" />
+        <Flex className="w-full" align={"center"}>
+          <Heading size={"5"} align={"left"}>
+            {order.donatedItem.title}
+          </Heading>
+        </Flex>
       </Flex>
-      <Flex p={"6"} direction={"column"} className="h-2/3">
-        <Heading size={"5"} mb={"6"} align={"center"}>
-          {order.donatedItem.title}
-        </Heading>
+      <Flex p={"6"} direction={"column"} className="h-4/5">
+        <Flex gap={"2"} justify={"between"} align={"center"}>
+          <Text>Order ID</Text>
+          <Text className="text-sm dark:text-slate-300">#{order.id}</Text>
+        </Flex>
 
+        <Seperator className="my-2" />
         <Flex gap={"2"} justify={"between"} align={"center"}>
           <Text>Order Date</Text>
           <Text className="text-sm dark:text-slate-300">{moment(order.created_at).format("DD MMM, YYYY")}</Text>

@@ -271,7 +271,13 @@ const OrganisationForm = ({ id, name, acronym, email, websiteUrl, logo, address,
 
       <Flex justify={"center"} mt={{ md: "6" }}>
         <Flex className="w-full sm:w-full lg:w-1/3" gap={"2"} justify="center">
-          <Button onClick={() => handleSave()} className="w-1/2">
+          <Button
+            onClick={() => {
+              handleSave();
+              router.back();
+            }}
+            className="w-1/2"
+          >
             Save
           </Button>
           <Button onClick={() => router.back()} className="w-1/2" color="red">
