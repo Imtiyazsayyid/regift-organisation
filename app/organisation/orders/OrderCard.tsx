@@ -25,7 +25,7 @@ const ProductCard = ({ order, cancelOrder }: Props) => {
       direction={"column"}
     >
       <Flex className="h-1/5 w-full" gap={"5"} px={"6"} pt={"4"} align={"center"}>
-        <img src={order.donatedItem.image} className="w-16 h-16 object-cover rounded-lg border" />
+        <img src={order.donatedItem.image} className="w-16 h-16 object-cover rounded-lg" />
         <Flex className="w-full" align={"center"}>
           <Heading size={"5"} align={"left"}>
             {order.donatedItem.title}
