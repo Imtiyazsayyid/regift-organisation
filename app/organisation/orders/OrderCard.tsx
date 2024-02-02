@@ -53,7 +53,13 @@ const ProductCard = ({ order, cancelOrder }: Props) => {
         <Seperator className="my-2" />
         <Flex gap={"1"} direction={"column"}>
           <Text>Address</Text>
-          <Text className="text-xs dark:text-slate-300 text-slate-600">{order.organisation.address}</Text>
+          {/* <Text className="text-xs dark:text-slate-300 text-slate-600">{order.organisation.address}</Text>
+           */}
+          {order.organisation?.address.split("\n").map((line, index) => (
+            <Text key={index} className="text-sm text-slate-500">
+              {line}
+            </Text>
+          ))}
         </Flex>
 
         <Flex justify={"center"} gap={"1"} className="h-full" align={"end"}>
