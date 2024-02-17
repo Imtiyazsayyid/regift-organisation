@@ -10,6 +10,18 @@ export async function getAccessToken(refreshToken) {
   });
 }
 
+export async function sendOTP(payload) {
+  return await Api().post("send-otp", payload);
+}
+
+export async function verifyOTP(payload) {
+  return await Api().post("verify-otp", payload);
+}
+
+export async function resetPassword(payload) {
+  return await Api().post("reset-password", payload);
+}
+
 // Details
 
 export async function getOrganisationDetails() {

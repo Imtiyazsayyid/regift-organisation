@@ -143,7 +143,16 @@ const LoginPage = () => {
               />
             </TextField.Root>
           </Flex>
-          <Flex className="w-1/2" justify={"end"}>
+          <Flex className="w-full lg:w-2/3 mb-2" justify={"end"}>
+            <Text
+              color="pink"
+              className="font-semibold cursor-pointer"
+              onClick={() => router.push("/auth/forgot-password")}
+            >
+              Forgot Password?
+            </Text>
+          </Flex>
+          <Flex className="w-full lg:w-2/3" justify={"end"}>
             <Button size={"3"} onClick={handleSubmit} className="w-full">
               Login
             </Button>
