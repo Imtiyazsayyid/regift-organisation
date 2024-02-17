@@ -107,7 +107,7 @@ const ForgotPasswordPage = () => {
               <TextField.Slot>
                 <LockClosedIcon height="18" width="18" />
               </TextField.Slot>
-              <TextField.Input value={otp} onChange={(e) => setOtp(e.target.value)} />
+              <TextField.Input value={otp} onChange={(e) => setOtp(e.target.value)} type="password" />
             </TextField.Root>
             <Button size={"3"} variant="solid" onClick={verifyOTP}>
               <ArrowRightIcon />
