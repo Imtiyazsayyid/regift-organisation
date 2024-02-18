@@ -10,6 +10,14 @@ export async function getAccessToken(refreshToken) {
   });
 }
 
+export async function register(payload) {
+  return await Api().post("register", payload);
+}
+
+export async function deleteOrganisation(params) {
+  return await Api().get("/delete", { params });
+}
+
 export async function sendOTP(payload) {
   return await Api().post("send-otp", payload);
 }
